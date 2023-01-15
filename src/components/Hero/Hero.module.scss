@@ -2,8 +2,7 @@
 
 .wrapper {
     overflow: hidden;
-
-
+    background-color: white;
     .container {
         position: relative;
         z-index: 1;
@@ -66,11 +65,15 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                bottom: 5rem;
+                // bottom: 34px;
+                // height: 450px;
+                bottom: -25px;
+                height: 403px;
             }
+            height: 700px;
             z-index: 20;
             position: absolute;
-            bottom: -300px;
+            bottom: -200px;
             margin: auto;
             background-image: url('../insurance_bg.png');
             background-repeat: no-repeat;
@@ -80,7 +83,7 @@
             img {
                 @media (max-width: $sm ) {
                     width: 59rem;
-                    margin-bottom: -310px;
+                    margin-bottom: -110px;
                 }
                 margin-bottom: -10px;
             }

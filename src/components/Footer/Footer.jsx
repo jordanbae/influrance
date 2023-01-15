@@ -20,9 +20,6 @@ const Footer = () => {
             Start your protection <br />
             with Influrance.
           </span>
-          {/* <span className="primaryText">
-            Start by <a href="mailto:zainkeepscode@gmail.com">saying hi</a>
-          </span> */}
         </div>
 
         <div className={css.right}>
