@@ -60,7 +60,7 @@ export const comments = [
     name: "Jintana Wong",
     post: "Content Creator",
     comment:
-      "I never thought I needed an insurance as influencer but after using Influrance's service, I realized how important it is, it's comprehensive and affordable",
+      "I never thought I needed an insurance as influencer but after using Influrance's service, I realized how important it is.",
     img: "./person1.png",
   },
   {
