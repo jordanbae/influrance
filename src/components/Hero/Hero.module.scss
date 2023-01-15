@@ -1,0 +1,84 @@
+@import '../../styles/contants.scss';
+
+.wrapper {
+    overflow: hidden;
+
+
+    .container {
+        position: relative;
+        z-index: 1;
+
+        .upperElements {
+            @media (max-width: $sm) {
+                justify-content: center;
+                text-align: center;
+                gap: 2rem;
+            }
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+
+        .lowerElements {
+            @media (max-width: $sm), (max-width: $md) {
+                margin-top: 4rem;
+                gap: 2rem;
+                justify-content: center;
+            }
+            margin-top: 12rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            .experience {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                >:nth-child(2) {
+                    line-height: 25px;
+                }
+            }
+
+            .certificate {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                font-size: 20px;
+                img {
+                    margin-bottom: 5.5rem;
+                    width: 2.5rem;
+                }
+            }
+        }
+
+        .heroPerson {
+            @media (max-width: $sm ), (max-width: $md) {
+                position: relative;
+                left: 0;
+                background-size: 25rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                bottom: 5rem;
+            }
+
+            position: absolute;
+            bottom: -300px;
+            margin: auto;
+            background-image: url('../insurance_bg.png');
+            background-repeat: no-repeat;
+            background-size: 40rem;
+            background-position: bottom;
+            left: 15%;
+            img {
+                @media (max-width: $sm ) {
+                    width: 59rem;
+                    margin-bottom: -310px;
+                }
+                margin-bottom: -10px;
+            }
+        }
+
+    }
+}
