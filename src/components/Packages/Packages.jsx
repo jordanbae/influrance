@@ -11,6 +11,7 @@ const Packages = () => {
       viewport={{ once: false, amount: 0.25 }}
       className={`paddings ${style.wrapper}`}
     >
+      <a className="anchor" id="packages"></a>
       <div className={`innerWidth flexCenter ${style.container}`}>
         <div className={`flexCenter ${style.heading}`}>
           <div>

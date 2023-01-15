@@ -19,8 +19,7 @@ const Reviews = () => {
       section
       className={`paddings ${style.wrapper}`}
     >
-      {/* <a className="anchor" id="people"></a> */}
-
+      <a className="anchor" id="reviews"></a>
       <motion.div
         variants={footerVariants}
         className={`yPaddings innerWidth ${style.container}`}

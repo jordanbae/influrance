@@ -1,3 +1,4 @@
+import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import Hero from "./components/Hero/Hero";
 import Packages from "./components/Packages/Packages";
@@ -12,6 +13,7 @@ const App = () => {
       <Service />
       <Packages />
       <Reviews />
+      <Footer />
     </div>
   );
 };

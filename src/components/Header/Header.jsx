@@ -25,13 +25,13 @@ const Header = () => {
           className={`flexCenter ${style.menu}`}
         >
           <li>
-            <a href="">Services</a>
+            <a href="#services">Services</a>
           </li>
           <li>
-            <a href="">Packages</a>
+            <a href="#packages">Packages</a>
           </li>
           <li>
-            <a href="">Reviews</a>
+            <a href="#reviews">Reviews</a>
           </li>
           <li className={`flexCenter ${style.phone}`}>
             <p>+123 456 789</p>
