@@ -1,5 +1,11 @@
+import Header from "./components/Header/Header";
+import style from "./styles/app.module.scss"
 const App = () => {
-  return <h1>App.jsx</h1>;
+  return (
+    <div className={`bg-primary ${style.container}`}>
+      <Header/>
+    </div>
+  ) 
 };
 
 export default App;
