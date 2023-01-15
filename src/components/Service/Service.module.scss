@@ -1,0 +1,34 @@
+@import '../../styles/contants.scss';
+
+.wrapper {
+    background: white;
+    .container {
+        align-items: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+        >div {
+           flex: 1; 
+        }
+
+        .centerSide {
+            @media(max-width: $sm) {
+                text-align:center;
+            }
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            gap: 2rem;
+            text-align: center;
+            .records {
+                display: flex;
+                justify-content: center;
+                flex-direction: row;
+                gap: 4rem;
+                .record {
+                    display: flex;
+                    flex-direction: column;
+                }
+            }
+        }
+    }
+}

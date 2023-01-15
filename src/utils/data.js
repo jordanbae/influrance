@@ -4,7 +4,6 @@ import { MdWorkspacesOutline } from "react-icons/md";
 
 export const WhatWeDo = [
   "At Influrance, we understand the unique challenges that influencers face when it comes to protecting their income and reputation online. That's why we've created a comprehensive insurance solution specifically designed for influencers. Our insurance packages offer coverage for brand partnerships, content creation, income interruption, and online defamation, providing influencers with the peace of mind they need to focus on what they do best - creating content and engaging with their followers.",
-  "Whether you're an up-and-coming influencer just starting out or an established influencer with a large following, we can help you protect your income and reputation. Our flexible coverage options and competitive pricing make it easy to find the right package for your needs. So, if you're an influencer looking for protection, look no further than Influrance.",
 ];
 
 export const comments = [
