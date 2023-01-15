@@ -27,6 +27,9 @@ const Packages = () => {
             variants={fadeIn("up", "tween", 0.5, 0.6)}
             src="./tier1.png"
             alt="package"
+            onClick={() => {
+              alert("hi");
+            }}
           />
           <motion.img
             variants={fadeIn("up", "tween", 0.7, 0.6)}
