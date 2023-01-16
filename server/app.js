@@ -14,6 +14,8 @@ mongoose
 // ------------------------------------- //
 //My Routes
 const influencerRouter = require("./routes/influencer");
+const policyRouter = require("./routes/policy");
+const purchaseRouter = require("./routes/purchase");
 // ------------------------------------- //
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -33,6 +35,8 @@ app.use("/api", indexRouter);
 app.use("/api/users", usersRouter);
 // app.use my routes
 app.use("/api/influencers", influencerRouter);
+app.use("/api/policies", policyRouter);
+app.use("/api/purchases", purchaseRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
