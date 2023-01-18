@@ -4,6 +4,10 @@ import style from "./Packages.module.scss";
 import { fadeIn, staggerChildren } from "../../utils/motion";
 import ComparisonModal from "../ComparisonModal/ComparisonModal";
 import Tier1 from "../PackagesForm/Tier1";
+import Tier2 from "../PackagesForm/Tier2";
+import Tier3 from "../PackagesForm/Tier3";
+import Tier4 from "../PackagesForm/Tier4";
+
 const Packages = () => {
   const [openModalFrame, setOpenModalFrame] = useState(false);
   const [chosenPackage, setChosenPackage] = useState("");
@@ -52,6 +56,15 @@ const Packages = () => {
             />
           ) : null}
         </div>
+        {chosenPackage === "tier1" ? (
+          <Tier1 chosenPackage={chosenPackage} />
+        ) : chosenPackage === "tier2" ? (
+          <Tier2 chosenPackage={chosenPackage} />
+        ) : chosenPackage === "tier3" ? (
+          <Tier3 chosenPackage={chosenPackage} />
+        ) : chosenPackage === "tier4" ? (
+          <Tier4 chosenPackage={chosenPackage} />
+        ) : null}
         <div className={`flexCenter ${style.packages}`}>
           <motion.img
             variants={fadeIn("up", "tween", 0.5, 0.6)}

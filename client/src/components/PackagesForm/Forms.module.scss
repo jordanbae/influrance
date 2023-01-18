@@ -1,0 +1,16 @@
+.container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px red solid;
+    .form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+   width: 100vw; 
+    border: 1px red solid;
+    }
+}
