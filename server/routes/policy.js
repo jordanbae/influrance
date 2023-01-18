@@ -11,9 +11,16 @@ router.get("/", (req, res, next) => {
   });
 });
 
-//Get by id
+// Get by id
 router.get("/:id", (req, res, next) => {
   Policy.findById(req.params.id, (err, policy) => {
+    if (err) return next(err);
+    res.json(policy);
+  });
+});
+
+router.get("/tier/:tier", (req, res, next) => {
+  Policy.find({ tier: req.params.tier }, (err, policy) => {
     if (err) return next(err);
     res.json(policy);
   });
