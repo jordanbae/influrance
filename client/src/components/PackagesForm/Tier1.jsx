@@ -6,22 +6,167 @@ import { useEffect } from "react";
 import axios from "axios";
 const Tier1 = ({ chosenPackage }) => {
   const [packageData, setPackageData] = useState(null);
+  const [isLoading, setLoading] = useState(true);
+  const [coverageAmount, setCoverageAmount] = useState(null);
+  const [coveragePrice, setCoveragePrice] = useState(null);
+  const [formData, setFormData] = useState({
+    //Policies
+    package: null,
+    coverage_amount: null,
+    price: null,
+    //Influencers
+    fullname: null,
+    username: null,
+    password: null,
+    phone: null,
+    email: null,
+    address: null,
+    social_media_handle: null,
+    platform: null,
+    income: null,
+  });
   useEffect(() => {
     axios
       .get(`http://localhost:3001/api/policies/tier/${chosenPackage}`)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
+        console.log(res.data[0]);
+        const covAmount = res.data[0].coverage_amount.$numberDecimal;
+        const covPrice = res.data[0].price.$numberDecimal;
+        setCoveragePrice(covPrice);
+        setCoverageAmount(covAmount);
+        setFormData(() => ({
+          ...formData,
+          package: chosenPackage,
+          coverage_amount: coverageAmount,
+          price: coveragePrice,
+        }));
         setPackageData(res.data);
+
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
       });
   }, []);
-
+  const handleChange = (e) => {
+    setFormData(() => ({
+      ...formData,
+      [e.target.name]: e.target.value,
+    }));
+  };
+  if (isLoading) {
+    return null;
+  }
+  const mapPackage = packageData.map((item) => {
+    return (
+      <form className={style.form}>
+        <label style={{ color: "white" }}>Package</label>
+        <select name="selectPackage" id="selectPackage" disabled>
+          <option value={item.tier}>
+            {item.tier === "tier1" ? "Starter Pack - Tier 1" : null}
+          </option>
+        </select>
+        <label style={{ color: "white" }}>Coverage Amount</label>
+        <input
+          className={style.formInput}
+          type="text"
+          name="coverage_amount"
+          value={coverageAmount}
+          placeholder={`${item.coverage_amount.$numberDecimal} Baht`}
+          readOnly={true}
+        ></input>
+        <label style={{ color: "white" }}>Price</label>
+        <input
+          className={style.formInput}
+          type="text"
+          name="price"
+          value={coveragePrice}
+          placeholder={`${coveragePrice} Baht / Year`}
+          readOnly={true}
+        ></input>
+        <label style={{ color: "white" }}>Fullname</label>
+        <input
+          className={style.formInput}
+          type="text"
+          name="fullname"
+          placeholder={`Fullname`}
+          onChange={handleChange}
+        ></input>
+        <label style={{ color: "white" }}>Username</label>
+        <input
+          className={style.formInput}
+          type="text"
+          name="username"
+          placeholder={`Username`}
+          onChange={handleChange}
+        ></input>
+        <label style={{ color: "white" }}>Password</label>
+        <input
+          className={style.formInput}
+          type="password"
+          name="password"
+          placeholder={`Password`}
+          onChange={handleChange}
+        ></input>
+        <label style={{ color: "white" }}>Phone</label>
+        <input
+          className={style.formInput}
+          type="text"
+          name="phone"
+          placeholder={`Phone`}
+          onChange={handleChange}
+        ></input>
+        <label style={{ color: "white" }}>Email</label>
+        <input
+          className={style.formInput}
+          type="text"
+          name="email"
+          placeholder={`email`}
+          onChange={handleChange}
+        ></input>
+        <label style={{ color: "white" }}>Address</label>
+        <input
+          className={style.formInput}
+          type="text"
+          name="address"
+          placeholder={`address`}
+          onChange={handleChange}
+        ></input>
+        <label style={{ color: "white" }}>Social Media Handle</label>
+        <input
+          className={style.formInput}
+          type="text"
+          name="social_media_handle"
+          placeholder={`Social Media Handle`}
+          onChange={handleChange}
+        ></input>
+        <label style={{ color: "white" }}>Platform</label>
+        <input
+          className={style.formInput}
+          type="text"
+          name="platform"
+          placeholder={`Platform`}
+          onChange={handleChange}
+        ></input>
+        <label style={{ color: "white" }}>Income</label>
+        <input
+          className={style.formInput}
+          type="text"
+          name="income"
+          placeholder={`income`}
+          onChange={handleChange}
+        ></input>
+        <button>Submit</button>
+      </form>
+    );
+  });
   return (
     <Backdrop>
       <div className={style.container}>
-        <form className={style.form}>
+        {mapPackage}
+        {/* <form className={style.form}>
           <label style={{ color: "white" }}>Package</label>
           <select name="selectPackage" id="selectPackage">
             <option value="tier1">Starter Pack - Tier 1</option>
@@ -83,7 +228,7 @@ const Tier1 = ({ chosenPackage }) => {
             className={style.formInput}
             placeholder={"Address"}
           ></input>
-        </form>
+        </form> */}
       </div>
     </Backdrop>
   );
