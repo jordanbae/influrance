@@ -11,7 +11,7 @@ const Tier1 = ({ chosenPackage }) => {
   const [coveragePrice, setCoveragePrice] = useState(null);
   const [formData, setFormData] = useState({
     //Policies
-    package: null,
+    tier: null,
     coverage_amount: null,
     price: null,
     //Influencers
@@ -37,7 +37,7 @@ const Tier1 = ({ chosenPackage }) => {
         setCoverageAmount(covAmount);
         setFormData(() => ({
           ...formData,
-          package: chosenPackage,
+          tier: chosenPackage,
           coverage_amount: coverageAmount,
           price: coveragePrice,
         }));
@@ -50,6 +50,35 @@ const Tier1 = ({ chosenPackage }) => {
         setLoading(false);
       });
   }, []);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // new influencer
+      const newInfluencer = await axios.post(
+        "http://localhost:3001/api/influencers",
+        {
+          fullname: formData.fullname,
+          username: formData.username,
+          password: formData.password,
+          phone: formData.phone,
+          email: formData.email,
+          address: formData.address,
+          social_media_handle: formData.social_media_handle,
+          platform: formData.platform,
+          income: formData.income,
+        }
+      );
+
+      // new purchase
+      await axios.post("http://localhost:3001/api/purchases/purchase", {
+        influencer: newInfluencer.data._id,
+        tier: formData.tier,
+        coverage_amount: formData.coverage_amount,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
   const handleChange = (e) => {
     setFormData(() => ({
       ...formData,
@@ -61,7 +90,7 @@ const Tier1 = ({ chosenPackage }) => {
   }
   const mapPackage = packageData.map((item) => {
     return (
-      <form className={style.form}>
+      <form className={style.form} onSubmit={handleSubmit}>
         <label style={{ color: "white" }}>Package</label>
         <select name="selectPackage" id="selectPackage" disabled>
           <option value={item.tier}>
@@ -91,6 +120,7 @@ const Tier1 = ({ chosenPackage }) => {
           className={style.formInput}
           type="text"
           name="fullname"
+          value={formData.fullname}
           placeholder={`Fullname`}
           onChange={handleChange}
         ></input>
@@ -99,6 +129,7 @@ const Tier1 = ({ chosenPackage }) => {
           className={style.formInput}
           type="text"
           name="username"
+          value={formData.username}
           placeholder={`Username`}
           onChange={handleChange}
         ></input>
@@ -107,6 +138,7 @@ const Tier1 = ({ chosenPackage }) => {
           className={style.formInput}
           type="password"
           name="password"
+          value={formData.password}
           placeholder={`Password`}
           onChange={handleChange}
         ></input>
@@ -115,6 +147,7 @@ const Tier1 = ({ chosenPackage }) => {
           className={style.formInput}
           type="text"
           name="phone"
+          value={formData.phone}
           placeholder={`Phone`}
           onChange={handleChange}
         ></input>
@@ -123,6 +156,7 @@ const Tier1 = ({ chosenPackage }) => {
           className={style.formInput}
           type="text"
           name="email"
+          value={formData.email}
           placeholder={`email`}
           onChange={handleChange}
         ></input>
@@ -131,6 +165,7 @@ const Tier1 = ({ chosenPackage }) => {
           className={style.formInput}
           type="text"
           name="address"
+          value={formData.address}
           placeholder={`address`}
           onChange={handleChange}
         ></input>
@@ -139,6 +174,7 @@ const Tier1 = ({ chosenPackage }) => {
           className={style.formInput}
           type="text"
           name="social_media_handle"
+          value={formData.social_media_handle}
           placeholder={`Social Media Handle`}
           onChange={handleChange}
         ></input>
@@ -147,6 +183,7 @@ const Tier1 = ({ chosenPackage }) => {
           className={style.formInput}
           type="text"
           name="platform"
+          value={formData.platform}
           placeholder={`Platform`}
           onChange={handleChange}
         ></input>
@@ -155,10 +192,11 @@ const Tier1 = ({ chosenPackage }) => {
           className={style.formInput}
           type="text"
           name="income"
+          value={formData.income}
           placeholder={`income`}
           onChange={handleChange}
         ></input>
-        <button>Submit</button>
+        <button type="submit">Submit</button>
       </form>
     );
   });

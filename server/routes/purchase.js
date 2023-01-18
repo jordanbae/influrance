@@ -1,4 +1,5 @@
 const express = require("express");
+const Influencer = require("../models/Influencer");
 const router = express.Router();
 const User = require("../models/Influencer");
 const Policy = require("../models/Policy");
@@ -20,6 +21,40 @@ router.get("/:id", (req, res, next) => {
       if (err) return next(err);
       res.status(200).json(purchase);
     });
+});
+
+//
+router.post("/purchase", async (req, res) => {
+  try {
+    const newInfluencer = new Influencer({
+      fullname: req.body.fullname,
+      username: req.body.username,
+      password: req.body.password,
+      phone: req.body.phone,
+      email: req.body.email,
+      address: req.body.address,
+      social_media_handle: req.body.social_media_handle,
+      platform: req.body.platform,
+      income: req.body.income,
+    });
+    const savedInfluencer = await newInfluencer.save();
+
+    const policy = await Policy.findOne({ tier: req.body.tier });
+
+    const newPurchase = new Purchase({
+      influencer: savedInfluencer._id,
+      policy: policy._id,
+      coverage_amount: req.body.coverage_amount,
+    });
+    const savedPurchase = await newPurchase.save();
+
+    res.status(201).json({
+      message: "Purchase successfully created.",
+      purchase: savedPurchase,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 // Create purchase
 router.post("/", (req, res, next) => {
