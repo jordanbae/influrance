@@ -41,7 +41,7 @@ const Reviews = () => {
           <Slider {...sliderSettings} className={style.slider}>
             {comments.map((comment, i) => {
               return (
-                <div className={`flexCenter ${style.comment}`}>
+                <div key={i} className={`flexCenter ${style.comment}`}>
                   <img src={comment.img} alt="" />
                   <p>{comment.comment}</p>
                   <div className={style.line}></div>
