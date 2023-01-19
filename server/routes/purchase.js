@@ -22,7 +22,6 @@ router.get("/:id", (req, res, next) => {
       res.status(200).json(purchase);
     });
 });
-
 //
 router.post("/purchase", async (req, res) => {
   try {
@@ -55,23 +54,6 @@ router.post("/purchase", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});
-// Create purchase
-router.post("/", (req, res, next) => {
-  const newPurchase = new Purchase({
-    influencer: req.body.influencer,
-    policy: req.body.policy,
-    purchase_date: req.body.purchase_date,
-    start_date: req.body.start_date,
-    end_date: req.body.end_date,
-    coverage_limit: req.body.coverage_limit,
-    coverage_spent: req.body.coverage_spent,
-    coverage_left: req.body.coverage_left,
-  });
-  newPurchase.save((err, purchase) => {
-    if (err) return next(err);
-    res.status(200).json(purchase);
-  });
 });
 
 //Update purchase
