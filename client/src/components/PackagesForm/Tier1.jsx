@@ -50,28 +50,21 @@ const Tier1 = ({ chosenPackage }) => {
         setLoading(false);
       });
   }, []);
-  const handleSubmit = async (e) => {
+
+  const handleNewPurchase = async (e) => {
     e.preventDefault();
     try {
-      // new influencer
-      const newInfluencer = await axios.post(
-        "http://localhost:3001/api/influencers",
-        {
-          fullname: formData.fullname,
-          username: formData.username,
-          password: formData.password,
-          phone: formData.phone,
-          email: formData.email,
-          address: formData.address,
-          social_media_handle: formData.social_media_handle,
-          platform: formData.platform,
-          income: formData.income,
-        }
-      );
-
       // new purchase
       await axios.post("http://localhost:3001/api/purchases/purchase", {
-        influencer: newInfluencer.data._id,
+        fullname: formData.fullname,
+        username: formData.username,
+        password: formData.password,
+        phone: formData.phone,
+        email: formData.email,
+        address: formData.address,
+        social_media_handle: formData.social_media_handle,
+        platform: formData.platform,
+        income: formData.income,
         tier: formData.tier,
         coverage_amount: formData.coverage_amount,
       });
@@ -79,6 +72,7 @@ const Tier1 = ({ chosenPackage }) => {
       console.error(err);
     }
   };
+
   const handleChange = (e) => {
     setFormData(() => ({
       ...formData,
@@ -90,7 +84,7 @@ const Tier1 = ({ chosenPackage }) => {
   }
   const mapPackage = packageData.map((item) => {
     return (
-      <form className={style.form} onSubmit={handleSubmit}>
+      <form className={style.form} onSubmit={handleNewPurchase}>
         <label style={{ color: "white" }}>Package</label>
         <select name="selectPackage" id="selectPackage" disabled>
           <option value={item.tier}>
@@ -202,72 +196,7 @@ const Tier1 = ({ chosenPackage }) => {
   });
   return (
     <Backdrop>
-      <div className={style.container}>
-        {mapPackage}
-        {/* <form className={style.form}>
-          <label style={{ color: "white" }}>Package</label>
-          <select name="selectPackage" id="selectPackage">
-            <option value="tier1">Starter Pack - Tier 1</option>
-            <option value="tier2">Basic Pack - Tier 2</option>
-            <option value="tier3">Pro Pack - Tier 3</option>
-            <option value="tier4">Premium Pack - Tier 4</option>
-          </select>
-          <label style={{ color: "white" }}>Coverage Amount</label>
-          <input
-            type="text"
-            className={style.formInput}
-            placeholder={"Coverage Amount"}
-          ></input>
-          <label style={{ color: "white" }}>Price</label>
-          <input
-            type="text"
-            className={style.formInput}
-            placeholder={"Price"}
-          ></input>
-          <label style={{ color: "white" }}>Social Media Handle</label>
-          <input
-            type="text"
-            className={style.formInput}
-            placeholder={"Social Media Handle"}
-          ></input>
-          <label style={{ color: "white" }}>Fullname</label>
-          <input
-            type="text"
-            className={style.formInput}
-            placeholder={"Fullname"}
-          ></input>
-          <label style={{ color: "white" }}>Username</label>
-          <input
-            type="text"
-            className={style.formInput}
-            placeholder={"Username"}
-          ></input>
-          <label style={{ color: "white" }}>Password</label>
-          <input
-            type="text"
-            className={style.formInput}
-            placeholder={"Password"}
-          ></input>
-          <label style={{ color: "white" }}>Phone</label>
-          <input
-            type="text"
-            className={style.formInput}
-            placeholder={"Phone"}
-          ></input>
-          <label style={{ color: "white" }}>Email</label>
-          <input
-            type="text"
-            className={style.formInput}
-            placeholder={"Email"}
-          ></input>
-          <label style={{ color: "white" }}>Address</label>
-          <input
-            type="text"
-            className={style.formInput}
-            placeholder={"Address"}
-          ></input>
-        </form> */}
-      </div>
+      <div className={style.container}>{mapPackage}</div>
     </Backdrop>
   );
 };
