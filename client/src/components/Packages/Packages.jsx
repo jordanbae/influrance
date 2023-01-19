@@ -1,26 +1,29 @@
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./Packages.module.scss";
 import { fadeIn, staggerChildren } from "../../utils/motion";
 import ComparisonModal from "../ComparisonModal/ComparisonModal";
-import Tier1 from "../PackagesForm/Tier1";
-import Tier2 from "../PackagesForm/Tier2";
-import Tier3 from "../PackagesForm/Tier3";
-import Tier4 from "../PackagesForm/Tier4";
+import { Link, useNavigate } from "react-router-dom";
 
 const Packages = () => {
+  const navigate = useNavigate();
   const [openModalFrame, setOpenModalFrame] = useState(false);
   const [chosenPackage, setChosenPackage] = useState("");
-  const handleOpenForm = (e) => {
-    e.preventDefault();
-    const value = e.target.dataset.value;
-    setChosenPackage(value);
-    alert(value);
-  };
-
   const handleModal = () => {
     setOpenModalFrame(!openModalFrame);
   };
+  const handleChosenPackage = (e) => {
+    e.preventDefault();
+    const val = e.target.dataset.value;
+    setChosenPackage(val);
+  };
+
+  // for navigate to purcahse
+  useEffect(() => {
+    if (chosenPackage) {
+      navigate("/purchase", { state: chosenPackage });
+    }
+  }, [chosenPackage, navigate]);
   return (
     <motion.section
       variants={staggerChildren}
@@ -56,43 +59,34 @@ const Packages = () => {
             />
           ) : null}
         </div>
-        {chosenPackage === "tier1" ? (
-          <Tier1 chosenPackage={chosenPackage} />
-        ) : chosenPackage === "tier2" ? (
-          <Tier2 chosenPackage={chosenPackage} />
-        ) : chosenPackage === "tier3" ? (
-          <Tier3 chosenPackage={chosenPackage} />
-        ) : chosenPackage === "tier4" ? (
-          <Tier4 chosenPackage={chosenPackage} />
-        ) : null}
         <div className={`flexCenter ${style.packages}`}>
           <motion.img
             variants={fadeIn("up", "tween", 0.5, 0.6)}
             src="./tier1.png"
             alt="package"
             data-value="tier1"
-            onClick={(e) => {
-              handleOpenForm(e);
-            }}
+            onClick={handleChosenPackage}
           />
           <motion.img
             variants={fadeIn("up", "tween", 0.7, 0.6)}
             src="./tier2.png"
             alt="package"
             data-value="tier2"
-            onClick={(e) => {
-              handleOpenForm(e);
-            }}
+            onClick={handleChosenPackage}
           />
           <motion.img
             variants={fadeIn("up", "tween", 0.9, 0.6)}
             src="./tier3.png"
             alt="package"
+            data-value="tier3"
+            onClick={handleChosenPackage}
           />
           <motion.img
             variants={fadeIn("up", "tween", 1.1, 0.6)}
             src="./tier4.png"
             alt="package"
+            data-value="tier4"
+            onClick={handleChosenPackage}
           />
         </div>
       </div>
