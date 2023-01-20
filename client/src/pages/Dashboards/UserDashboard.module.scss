@@ -1,0 +1,156 @@
+.wrapper {
+  height: 100vh;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    height: 100vh;
+    .leftContainer {
+      width: 20%;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url("../purchase_left.png");
+      background-repeat: no-repeat;
+      background-size: 30rem;
+      div {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+    .rightContainer {
+      width: 80%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      .upperElement {
+        height: 30%;
+        width: 100%;
+        .dataWrapper {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+
+          .amountCont {
+            height: 200px;
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+            .amountUpper {
+              background: rgb(84, 198, 114);
+              background: linear-gradient(
+                40deg,
+                rgba(84, 198, 114, 1) 0%,
+                rgba(135, 196, 114, 1) 100%
+              );
+              height: 35%;
+              border-top-left-radius: 20px;
+              border-top-right-radius: 20px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+            .amountLower {
+              height: 65%;
+              background-color: #fff;
+              border-bottom-left-radius: 20px;
+              border-bottom-right-radius: 20px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+          }
+          .spentCont {
+            height: 200px;
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+            .spentUpper {
+              border-top-left-radius: 20px;
+              border-top-right-radius: 20px;
+              height: 35%;
+              background: rgb(255, 101, 101);
+              background: linear-gradient(
+                42deg,
+                rgba(255, 101, 101, 1) 0%,
+                rgba(255, 148, 165, 1) 100%
+              );
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+            .spentLower {
+              height: 65%;
+              background-color: #fff;
+              border-bottom-left-radius: 20px;
+              border-bottom-right-radius: 20px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+          }
+          .leftCont {
+            height: 200px;
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+            .leftUpper {
+              background-color: beige;
+              height: 35%;
+              border-top-left-radius: 20px;
+              border-top-right-radius: 20px;
+              background: rgb(57, 184, 255);
+              background: linear-gradient(
+                40deg,
+                rgba(57, 184, 255, 1) 34%,
+                rgba(147, 190, 255, 1) 100%
+              );
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+            .leftLower {
+              height: 65%;
+              background-color: #fff;
+              border-bottom-left-radius: 20px;
+              border-bottom-right-radius: 20px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+          }
+        }
+      }
+      .lowerElement {
+        height: 70%;
+        width: 100%;
+        .innerUpperElement {
+          height: 15%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: white;
+        }
+        .innerLowerElement {
+          height: 85%;
+        }
+      }
+    }
+  }
+
+  .covLabel {
+    color: #0d2f3f;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+
+  .covData {
+    color: #0d2f3f;
+    font-size: 2rem;
+  }
+}
