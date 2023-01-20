@@ -98,7 +98,8 @@ const Purchase = () => {
         platform: formData.platform,
         income: formData.income,
         tier: formData.tier,
-        coverage_amount: formData.coverage_amount,
+        price: coveragePrice,
+        coverage_amount: coverageAmount,
       });
     } catch (err) {
       console.error(err);
@@ -165,7 +166,7 @@ const Purchase = () => {
                 {/* Package info section */}
                 {/* <form onSubmit={handleNewPurchase}> */}
                 <form onSubmit={handleNewPurchase}>
-                  {formStep === 0 && (
+                  {formStep === 1 && (
                     <section>
                       <div className={style.inputContainer}>
                         <label className={style.formLabels}>Package</label>
@@ -173,7 +174,17 @@ const Purchase = () => {
                           type="text"
                           className={style.inputForm}
                           name="selectPackage"
-                          data-value={item.tier}
+                          value={
+                            item.tier === "tier1"
+                              ? "Starter Pack - Tier 1"
+                              : item.tier === "tier2"
+                              ? "Basic Pack - Tier 2"
+                              : item.tier === "tier3"
+                              ? "Pro Pack - Tier 3"
+                              : item.tier === "tier4"
+                              ? "Premium Pack - Tier 4"
+                              : null
+                          }
                           readOnly={true}
                           placeholder={``}
                         />
@@ -211,7 +222,7 @@ const Purchase = () => {
                     </section>
                   )}
                   {/* Fullname / Username section */}
-                  {formStep === 1 && (
+                  {formStep === 2 && (
                     <section>
                       <div className={style.inputContainer}>
                         <label className={style.formLabels}>Fullname</label>
@@ -245,7 +256,7 @@ const Purchase = () => {
                   )}
 
                   {/* Phone / Email / Address section  */}
-                  {formStep === 2 && (
+                  {formStep === 3 && (
                     <section>
                       <div className={style.inputContainer}>
                         <label className={style.formLabels}>Phone</label>
@@ -289,7 +300,7 @@ const Purchase = () => {
                     </section>
                   )}
                   {/* Social Media / Income section */}
-                  {formStep === 3 && (
+                  {formStep === 4 && (
                     <section>
                       <div className={style.inputContainer}>
                         <label className={style.formLabels}>
