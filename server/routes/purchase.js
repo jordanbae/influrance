@@ -61,6 +61,10 @@ router.post("/purchase", async (req, res) => {
       influencer: savedInfluencer._id,
       policy: policy._id,
       coverage_amount: req.body.coverage_amount,
+      //added track
+      coverage_limit: req.body.coverage_amount,
+      coverage_spent: 0,
+      coverage_left: req.body.coverage_amount,
     });
     const savedPurchase = await newPurchase.save();
 
@@ -73,6 +77,23 @@ router.post("/purchase", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+
+router.get("/user/:username", async (req, res, next) => {
+  try {
+    let userData = [];
+    const influencer = await Influencer.findOne({
+      username: req.params.username,
+    });
+    userData.push(influencer);
+    const purchase = await Purchase.findOne({ influencer: influencer._id });
+    userData.push(purchase);
+    const policy_details = await Policy.findOne({ _id: purchase.policy });
+    userData.push(policy_details);
+    res.send({
+      userData: userData,
+    });
+  } catch {}
 });
 
 //Update purchase
