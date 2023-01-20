@@ -4,6 +4,10 @@ const router = express.Router();
 const User = require("../models/Influencer");
 const Policy = require("../models/Policy");
 const Purchase = require("../models/Purchase");
+const bcrypt = require("bcrypt");
+require("dotenv").config();
+
+const jwt = require("jsonwebtoken");
 
 // Get all
 router.get("/", (req, res, next) => {
@@ -23,12 +27,15 @@ router.get("/:id", (req, res, next) => {
     });
 });
 //
+
 router.post("/purchase", async (req, res) => {
   try {
+    const salt = await bcrypt.genSalt(Number(process.env.SALT));
+    const hashedPwd = await bcrypt.hash(req.body.password, salt);
     const newInfluencer = new Influencer({
       fullname: req.body.fullname,
       username: req.body.username,
-      password: req.body.password,
+      password: hashedPwd,
       phone: req.body.phone,
       email: req.body.email,
       address: req.body.address,
@@ -37,6 +44,16 @@ router.post("/purchase", async (req, res) => {
       income: req.body.income,
     });
     const savedInfluencer = await newInfluencer.save();
+    const token = jwt.sign(
+      {
+        username: savedInfluencer.username,
+        _id: savedInfluencer._id,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "30 days",
+      }
+    );
 
     const policy = await Policy.findOne({ tier: req.body.tier });
 
@@ -47,6 +64,7 @@ router.post("/purchase", async (req, res) => {
     });
     const savedPurchase = await newPurchase.save();
 
+    res.cookie("jwt", token);
     res.status(201).json({
       message: "Purchase successfully created.",
       purchase: savedPurchase,

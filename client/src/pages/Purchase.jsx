@@ -82,9 +82,9 @@ const Purchase = () => {
     e.preventDefault();
     // const randpwd = passwordGenerator();
     // setRandPassword(randpwd.password);
-    console.log("randpassword in handle new purchase >>> ", randPassword);
     try {
       const randpwd = passwordGenerator();
+      console.log("randpassword in handle new purchase >>> ", randpwd);
       // new purchase
       await axios.post("http://localhost:3001/api/purchases/purchase", {
         fullname: formData.fullname,

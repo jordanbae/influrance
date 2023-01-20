@@ -8,6 +8,7 @@ import Service from "./components/Service/Service";
 import style from "./styles/app.module.scss";
 import { Routes, Route, Link } from "react-router-dom";
 import Purchase from "./pages/Purchase";
+import Login from "./pages/Login/Login";
 const App = () => {
   return (
     <div className={`bg-primary ${style.container}`}>
@@ -27,6 +28,7 @@ const App = () => {
           }
         />
         <Route path="/purchase" element={<Purchase />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </div>
   );
