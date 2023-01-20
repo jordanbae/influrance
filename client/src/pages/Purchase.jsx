@@ -6,6 +6,7 @@ import { fadeIn, slideIn, staggerContainer } from "../utils/motion";
 import axios from "axios";
 import cryptoRandomString from "crypto-random-string";
 const Purchase = () => {
+  axios.defaults.withCredentials = true;
   const [isVisible, setVisible] = useState(false);
   const [formStep, setFormStep] = useState(1);
   //handling form data and api call

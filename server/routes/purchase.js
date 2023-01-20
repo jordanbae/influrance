@@ -65,10 +65,11 @@ router.post("/purchase", async (req, res) => {
     const savedPurchase = await newPurchase.save();
 
     res.cookie("jwt", token);
-    res.status(201).json({
-      message: "Purchase successfully created.",
-      purchase: savedPurchase,
-    });
+    res.json({ message: "Purchased and Influencer successfully created" });
+    // res.status(201).json({
+    //   message: "Purchase successfully created.",
+    //   purchase: savedPurchase,
+    // });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

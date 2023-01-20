@@ -21,10 +21,8 @@ router.post("/login", function (req, res, next) {
               expiresIn: "30 days",
             }
           );
-
-          res.status(201).json({
-            message: token,
-          });
+          res.cookie("jwt", token);
+          res.json(token);
         } else {
           return res.sendStatus(400);
         }

@@ -9,6 +9,7 @@ import style from "./styles/app.module.scss";
 import { Routes, Route, Link } from "react-router-dom";
 import Purchase from "./pages/Purchase";
 import Login from "./pages/Login/Login";
+import UserDashboard from "./pages/Dashboards/UserDashboard";
 const App = () => {
   return (
     <div className={`bg-primary ${style.container}`}>
@@ -23,12 +24,12 @@ const App = () => {
               <Packages />
               <Reviews />
               <Footer />
-              <Link to="/purchase">Purchase</Link>
             </>
           }
         />
         <Route path="/purchase" element={<Purchase />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/udashboard" element={<UserDashboard />} />
       </Routes>
     </div>
   );
