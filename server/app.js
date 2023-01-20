@@ -46,7 +46,12 @@ const verifyToken = (req, res, next) => {
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
-app.use(cors());
+//add cors options to allow credentials when using axios to make generate cookie work
+const corsOptions = {
+  credentials: true,
+};
+app.use(cors(corsOptions));
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -57,8 +62,8 @@ app.use("/api", indexRouter);
 app.use("/api/users", verifyToken, usersRouter);
 // app.use my routes
 app.use("/api/influencers", verifyToken, influencerRouter);
-app.use("/api/policies", verifyToken, policyRouter);
-app.use("/api/purchases", verifyToken, purchaseRouter);
+app.use("/api/policies", policyRouter);
+app.use("/api/purchases", purchaseRouter);
 app.use("/api/auth", authRouter);
 
 // catch 404 and forward to error handler
