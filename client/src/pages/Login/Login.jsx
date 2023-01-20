@@ -10,7 +10,7 @@ const Login = () => {
   axios.defaults.withCredentials = true;
   useEffect(() => {
     if (success) {
-      navigate("/udashboard");
+      navigate("/udashboard", { state: user });
     }
     setSuccess(false);
   }, [success]);
