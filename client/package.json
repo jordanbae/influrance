@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emailjs/browser": "^3.10.0",
     "axios": "^1.2.3",
     "crypto-random-string": "^5.0.0",
     "emailjs": "^4.0.1",

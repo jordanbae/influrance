@@ -37,6 +37,11 @@ const Header = () => {
             <p>+123 456 789</p>
             <BiPhoneCall size={"40px"} />
           </li>
+          <li>
+            <a href="/login" style={{ textTransform: "capitalize" }}>
+              Login
+            </a>
+          </li>
         </ul>
         {/* sm - md screen */}
         <div

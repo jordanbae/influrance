@@ -5,6 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { fadeIn, slideIn, staggerContainer } from "../utils/motion";
 import axios from "axios";
 import cryptoRandomString from "crypto-random-string";
+
+//test emailjs
+import emailjs from "@emailjs/browser";
+
 const Purchase = () => {
   axios.defaults.withCredentials = true;
   const [isVisible, setVisible] = useState(false);
@@ -14,7 +18,7 @@ const Purchase = () => {
   const [isLoading, setLoading] = useState(true);
   const [coverageAmount, setCoverageAmount] = useState(null);
   const [coveragePrice, setCoveragePrice] = useState(null);
-  const [randPassword, setRandPassword] = useState("");
+  const [randPassword, setRandPassword] = useState(null);
 
   const location = useLocation();
   console.log("location >>>", location);
@@ -27,7 +31,7 @@ const Purchase = () => {
     price: null,
     //Influencers
     fullname: null,
-    username: null,
+    user_name: null,
     password: null,
     phone: null,
     email: null,
@@ -36,6 +40,28 @@ const Purchase = () => {
     platform: null,
     income: null,
   });
+
+  //EmailJs params
+  const [packageName, setPackageName] = useState("");
+  const current = new Date();
+  const startDate = `${current.getDate() + 1}/${
+    current.getMonth() + 1
+  }/${current.getFullYear()}`;
+  const endDate = `${current.getDate()}/${current.getMonth() + 1}/${
+    current.getFullYear() + 1
+  }`;
+  const packageNameChecker = (packageid) => {
+    if (packageid === "tier1") {
+      setPackageName("Starter Pack - Tier 1");
+    } else if (packageid === "tier2") {
+      setPackageName("Basic Pack - Tier 2");
+    } else if (packageid === "tier3") {
+      setPackageName("Pro Pack - Tier 3");
+    } else {
+      setPackageName("Premium Pack - Tier 4");
+    }
+  };
+  //Password generator
   const passwordGenerator = () => {
     const password = cryptoRandomString({
       length: 8,
@@ -45,15 +71,21 @@ const Purchase = () => {
 
     return { password };
   };
-  //handling steps
+
+  //Form steps handler
   const nextFormStep = () => {
     setFormStep((step) => step + 1);
+    console.log(randPassword.password);
   };
   const backFormStep = () => {
     setFormStep((step) => step - 1);
+    console.log(randPassword.password);
   };
+  const randpwd = passwordGenerator();
   useEffect(() => {
     setVisible(true);
+    console.log("VITE ENV", import.meta.env.VITE_SOMEKEY);
+    setRandPassword(randpwd);
     axios
       .get(`http://localhost:3001/api/policies/tier/${chosenPackage}`)
       .then((res) => {
@@ -69,8 +101,8 @@ const Purchase = () => {
           coverage_amount: coverageAmount,
           price: coveragePrice,
         }));
+        packageNameChecker(chosenPackage);
         setPackageData(res.data);
-
         setLoading(false);
       })
       .catch((err) => {
@@ -84,13 +116,42 @@ const Purchase = () => {
     // const randpwd = passwordGenerator();
     // setRandPassword(randpwd.password);
     try {
-      const randpwd = passwordGenerator();
-      console.log("randpassword in handle new purchase >>> ", randpwd);
+      //test emailjs
+      await emailjs
+        .send(
+          import.meta.env.VITE_EMAILJS_SERVICE_ID,
+          import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+          {
+            to_name: formData.fullname,
+            user_name: formData.user_name,
+            user_password: randPassword.password,
+            package_name: packageName,
+            package_coverage: coverageAmount,
+            package_startdate: startDate,
+            package_expdate: endDate,
+            package_price: coveragePrice,
+            user_email: formData.email,
+            reply_to: "influrancethailand@gmail.com",
+          },
+          import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        )
+        .then(
+          (result) => {
+            console.log("Email JS >>> ", result.text);
+          },
+          (error) => {
+            console.log(error.text);
+          }
+        );
+      console.log(
+        "randpassword in handle new purchase >>> ",
+        randPassword.password
+      );
       // new purchase
       await axios.post("http://localhost:3001/api/purchases/purchase", {
         fullname: formData.fullname,
-        username: formData.username,
-        password: randpwd.password,
+        username: formData.user_name,
+        password: randPassword.password,
         phone: formData.phone,
         email: formData.email,
         address: formData.address,
@@ -101,6 +162,8 @@ const Purchase = () => {
         price: coveragePrice,
         coverage_amount: coverageAmount,
       });
+
+      e.target.reset();
     } catch (err) {
       console.error(err);
     }
@@ -119,12 +182,12 @@ const Purchase = () => {
   }
   console.log("package data after loading >>> ", packageData);
 
-  const mapPackage = packageData.map((item) => {
+  const mapPackage = packageData.map((item, i) => {
     return (
       // <div>
       //   <h1>{item.tier}</h1>
       // </div>
-      <div className={style.wrapper}>
+      <div className={style.wrapper} key={i}>
         <motion.div
           className={`${style.container}`}
           variants={staggerContainer}
@@ -167,7 +230,19 @@ const Purchase = () => {
                 {/* <form onSubmit={handleNewPurchase}> */}
                 <form onSubmit={handleNewPurchase}>
                   {formStep === 1 && (
-                    <section>
+                    <motion.section
+                      initial={{ opacity: 0, y: "-100%" }}
+                      animate={{
+                        opacity: 1,
+                        y: "0",
+                        transition: {
+                          // delay: 0.2,
+                          duration: 0.5,
+                          type: "tween",
+                          ease: "easeOut",
+                        },
+                      }}
+                    >
                       <div className={style.inputContainer}>
                         <label className={style.formLabels}>Package</label>
                         <input
@@ -213,17 +288,26 @@ const Purchase = () => {
                           placeholder={``}
                         />
                       </div>
-                      <button type="button" onClick={backFormStep}>
-                        Back
-                      </button>
                       <button type="button" onClick={nextFormStep}>
                         Next
                       </button>
-                    </section>
+                    </motion.section>
                   )}
                   {/* Fullname / Username section */}
                   {formStep === 2 && (
-                    <section>
+                    <motion.section
+                      initial={{ opacity: 0, y: "-100%" }}
+                      animate={{
+                        opacity: 1,
+                        y: "0",
+                        transition: {
+                          // delay: 0.2,
+                          duration: 0.5,
+                          type: "tween",
+                          ease: "easeOut",
+                        },
+                      }}
+                    >
                       <div className={style.inputContainer}>
                         <label className={style.formLabels}>Fullname</label>
                         <input
@@ -240,24 +324,44 @@ const Purchase = () => {
                         <input
                           type="text"
                           className={style.inputForm}
-                          name="username"
+                          name="user_name"
                           placeholder={`janedoe`}
-                          value={formData.username}
+                          value={formData.user_name}
                           onChange={handleChange}
                         />
                       </div>
+                      {/* hidden password fields  */}
+                      <input
+                        type="text"
+                        hidden={true}
+                        readOnly={true}
+                        name="user_password"
+                        value={randPassword.password}
+                      />
                       <button type="button" onClick={backFormStep}>
                         Back
                       </button>
                       <button type="button" onClick={nextFormStep}>
                         Next
                       </button>
-                    </section>
+                    </motion.section>
                   )}
 
                   {/* Phone / Email / Address section  */}
                   {formStep === 3 && (
-                    <section>
+                    <motion.section
+                      initial={{ opacity: 0, y: "-100%" }}
+                      animate={{
+                        opacity: 1,
+                        y: "0",
+                        transition: {
+                          // delay: 0.2,
+                          duration: 0.5,
+                          type: "tween",
+                          ease: "easeOut",
+                        },
+                      }}
+                    >
                       <div className={style.inputContainer}>
                         <label className={style.formLabels}>Phone</label>
                         <input
@@ -297,11 +401,23 @@ const Purchase = () => {
                       <button type="button" onClick={nextFormStep}>
                         Next
                       </button>
-                    </section>
+                    </motion.section>
                   )}
                   {/* Social Media / Income section */}
                   {formStep === 4 && (
-                    <section>
+                    <motion.section
+                      initial={{ opacity: 0, y: "-100%" }}
+                      animate={{
+                        opacity: 1,
+                        y: "0",
+                        transition: {
+                          // delay: 0.2,
+                          duration: 0.5,
+                          type: "tween",
+                          ease: "easeOut",
+                        },
+                      }}
+                    >
                       <div className={style.inputContainer}>
                         <label className={style.formLabels}>
                           Social Media Handle
@@ -340,8 +456,62 @@ const Purchase = () => {
                       <button type="button" onClick={backFormStep}>
                         Back
                       </button>
+
+                      <button type="button" onClick={nextFormStep}>
+                        Next
+                      </button>
+                    </motion.section>
+                  )}
+
+                  {formStep === 5 && (
+                    <motion.section
+                      initial={{ opacity: 0, y: "-100%" }}
+                      animate={{
+                        opacity: 1,
+                        y: "0",
+                        transition: {
+                          // delay: 0.2,
+                          duration: 0.5,
+                          type: "tween",
+                          ease: "easeOut",
+                        },
+                      }}
+                    >
+                      <div className={style.inputContainer}>
+                        <label className={style.formLabels}>Card Number</label>
+                        <input
+                          type="text"
+                          className={style.inputForm}
+                          placeholder={`1234 1234 1234 1234`}
+                          name="card_number"
+                        />
+                      </div>
+                      <div className={style.inputContainer}>
+                        <label className={style.formLabels}>
+                          Expiration Date
+                        </label>
+                        <input
+                          type="text"
+                          className={style.inputForm}
+                          name="card_exp"
+                          placeholder={`MM / YY`}
+                        />
+                      </div>
+                      <div className={style.inputContainer}>
+                        <label className={style.formLabels}>CVC</label>
+                        <input
+                          type="password"
+                          name="card_cvc"
+                          className={style.inputForm}
+                          placeholder={`CVC`}
+                        />
+                      </div>
+                      <button type="button" onClick={backFormStep}>
+                        Back
+                      </button>
+
                       <button type="submit">Confirm</button>
-                    </section>
+                    </motion.section>
                   )}
                 </form>
                 {/* </form> */}
