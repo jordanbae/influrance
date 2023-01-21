@@ -18,7 +18,8 @@ const Header = () => {
       style={{ boxShadow: headerShadow }}
     >
       <div className={`flexCenter innerWidth ${style.container}`}>
-        <div className={style.name}>Influrance</div>
+        {/* <div className={style.name}>Influrance</div> */}
+        <img src="./snl.png" alt="logo" style={{ height: "60px" }} />
 
         <ul
           style={getMenuStyles(menuOpened)}

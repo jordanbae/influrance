@@ -5,6 +5,14 @@ import { Navigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeIn, slideIn, staggerContainer } from "../../utils/motion";
 import { useNavigate } from "react-router-dom";
+import { MdAccountCircle, MdOutlineEmail, MdPhone } from "react-icons/md";
+import { FiPackage } from "react-icons/fi";
+import {
+  BsFillCalendarPlusFill,
+  BsFillCalendarXFill,
+  BsFillCalendarCheckFill,
+} from "react-icons/bs";
+import moment from "moment";
 // import window.Cookies from "js-cookie";
 const UserDashboard = () => {
   const location = useLocation();
@@ -91,15 +99,54 @@ const UserDashboard = () => {
         <div className={style.rightContainer}>
           <div className={`${style.upperElement}`}>
             <div className={`${style.dataWrapper}`}>
-              <div className={style.amountCont}>
+              <motion.div
+                initial={{ opacity: 0, y: "-100%" }}
+                animate={{
+                  opacity: 1,
+                  y: "0",
+                  transition: {
+                    delay: 0.2,
+                    duration: 0.5,
+                    type: "tween",
+                    ease: "easeOut",
+                  },
+                }}
+                className={style.amountCont}
+              >
                 <p className={style.covData}>฿ {userPolData.coverage_limit}</p>
-              </div>
-              <div className={style.spentCont}>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: "-100%" }}
+                animate={{
+                  opacity: 1,
+                  y: "0",
+                  transition: {
+                    delay: 0.4,
+                    duration: 0.5,
+                    type: "tween",
+                    ease: "easeOut",
+                  },
+                }}
+                className={style.spentCont}
+              >
                 <p className={style.covData}>฿ {userPolData.coverage_spent}</p>
-              </div>
-              <div className={style.leftCont}>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: "-100%" }}
+                animate={{
+                  opacity: 1,
+                  y: "0",
+                  transition: {
+                    delay: 0.6,
+                    duration: 0.5,
+                    type: "tween",
+                    ease: "easeOut",
+                  },
+                }}
+                className={style.leftCont}
+              >
                 <p className={style.covData}>฿ {userPolData.coverage_left}</p>
-              </div>
+              </motion.div>
             </div>
           </div>
           <div className={style.lowerElement}>
@@ -110,21 +157,51 @@ const UserDashboard = () => {
               <div className={style.leftElement}>
                 {userPurData === "tier1" ? (
                   <motion.img
-                    variants={fadeIn("up", "tween", 0.5, 0.6)}
+                    initial={{ opacity: 0, y: "-100%" }}
+                    animate={{
+                      opacity: 1,
+                      y: "0",
+                      transition: {
+                        // delay: 0.2,
+                        duration: 0.5,
+                        type: "tween",
+                        ease: "easeOut",
+                      },
+                    }}
                     src="./tier1.png"
                     alt="package"
                     data-value="tier1"
                   />
                 ) : userPurData.tier === "tier2" ? (
                   <motion.img
-                    variants={fadeIn("up", "tween", 0.5, 0.6)}
+                    initial={{ opacity: 0, y: "-100%" }}
+                    animate={{
+                      opacity: 1,
+                      y: "0",
+                      transition: {
+                        // delay: 0.2,
+                        duration: 0.5,
+                        type: "tween",
+                        ease: "easeOut",
+                      },
+                    }}
                     src="./tier2.png"
                     alt="package"
                     data-value="tier2"
                   />
                 ) : userPurData.tier === "tier3" ? (
                   <motion.img
-                    variants={fadeIn("up", "tween", 0.5, 0.6)}
+                    initial={{ opacity: 0, y: "-100%" }}
+                    animate={{
+                      opacity: 1,
+                      y: "0",
+                      transition: {
+                        // delay: 0.2,
+                        duration: 0.5,
+                        type: "tween",
+                        ease: "easeOut",
+                      },
+                    }}
                     src="./tier3.png"
                     alt="package"
                     data-value="tier3"
@@ -162,7 +239,82 @@ const UserDashboard = () => {
                       ease: "easeOut",
                     },
                   }}
-                ></motion.div>
+                >
+                  <div className={style.currentUserDetail}>
+                    <p>
+                      <span>
+                        <MdAccountCircle />
+                      </span>
+                      {userData.username}
+                    </p>
+                    <p>
+                      <span>
+                        <MdOutlineEmail />
+                      </span>
+                      {userData.email}
+                    </p>
+
+                    <p>
+                      <span>
+                        <MdPhone />
+                      </span>
+                      {userData.phone}
+                    </p>
+                  </div>
+
+                  <div className={style.userPackageDetail}>
+                    {userPurData.tier === "tier1" ? (
+                      <p>
+                        <span>
+                          <FiPackage />
+                        </span>
+                        Package: Starter Pack - Tier 1
+                      </p>
+                    ) : userPurData.tier === "tier2" ? (
+                      <p>
+                        <span>
+                          <FiPackage />
+                        </span>
+                        Package: Basic Pack - Tier 2
+                      </p>
+                    ) : userPurData.tier === "tier3" ? (
+                      <p>
+                        <span>
+                          <FiPackage />
+                        </span>
+                        Package: Pro Pack - Tier 3
+                      </p>
+                    ) : userPurData.tier === "tier4" ? (
+                      <p>
+                        <span>
+                          <FiPackage />
+                        </span>
+                        Package: Premium Pack - Tier 4
+                      </p>
+                    ) : null}
+                    <p>
+                      <span>
+                        <BsFillCalendarPlusFill />
+                      </span>
+                      Purchase Date:{" "}
+                      {moment(userPolData.purchase_date).format("DD MMM YYYY")}
+                    </p>
+                    <p>
+                      <span>
+                        <BsFillCalendarCheckFill />
+                      </span>
+                      Start Date:{" "}
+                      {moment(userPolData.start_date).format("DD MMM YYYY")}
+                    </p>
+                    <p>
+                      <span>
+                        <BsFillCalendarXFill />
+                      </span>
+                      Expire Date:{" "}
+                      {moment(userPolData.expire_date).format("DD MMM YYYY")}
+                    </p>
+                  </div>
+                </motion.div>
               </div>
             </div>
           </div>

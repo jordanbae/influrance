@@ -129,6 +129,30 @@
               background-image: url("../db_packagedetail.png");
               background-repeat: no-repeat;
               background-size: 100%;
+              display: flex;
+              justify-content: flex-start;
+              align-items: flex-start;
+              flex-direction: column;
+              .currentUserDetail {
+                margin-top: 60px;
+                margin-left: 80px;
+                p {
+                  line-height: 2rem;
+                  span {
+                    margin-right: 10px;
+                  }
+                }
+              }
+              .userPackageDetail {
+                margin-top: 30px;
+                margin-left: 80px;
+                p {
+                  line-height: 2rem;
+                }
+                span {
+                  margin-right: 10px;
+                }
+              }
             }
           }
         }
