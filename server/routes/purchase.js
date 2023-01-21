@@ -79,23 +79,6 @@ router.post("/purchase", async (req, res) => {
   }
 });
 
-router.get("/user/:username", async (req, res, next) => {
-  try {
-    let userData = [];
-    const influencer = await Influencer.findOne({
-      username: req.params.username,
-    });
-    userData.push(influencer);
-    const purchase = await Purchase.findOne({ influencer: influencer._id });
-    userData.push(purchase);
-    const policy_details = await Policy.findOne({ _id: purchase.policy });
-    userData.push(policy_details);
-    res.send({
-      userData: userData,
-    });
-  } catch {}
-});
-
 //Update purchase
 router.put("/:id", (req, res, next) => {
   Purchase.findOneAndUpdate(
