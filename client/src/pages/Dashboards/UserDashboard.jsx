@@ -5,6 +5,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeIn, slideIn, staggerContainer } from "../../utils/motion";
 import { useNavigate } from "react-router-dom";
+// import window.Cookies from "js-cookie";
 const UserDashboard = () => {
   const location = useLocation();
   const currentUser = location.state;
@@ -13,6 +14,7 @@ const UserDashboard = () => {
   const [userPurData, setUserPurData] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const navigate = useNavigate();
+  console.log("Console Loggin localstorage", localStorage.getItem("jwt"));
   useEffect(() => {
     axios
       .get(`http://localhost:3001/api/users/${currentUser}`, {
@@ -53,16 +55,6 @@ const UserDashboard = () => {
       </div>
     );
   };
-  // const mapUserData = userData.map((item, i) => {
-  //   return (
-  //     <>
-  //       <h3>{item.username}</h3>
-  //       <h3>{item.fullname}</h3>
-  //       <h3>{item.email}</h3>
-  //       <h3>{item.social_media_handle}</h3>
-  //     </>
-  //   );
-  // });
   return (
     <div className={style.wrapper}>
       <motion.div
@@ -100,32 +92,13 @@ const UserDashboard = () => {
           <div className={`${style.upperElement}`}>
             <div className={`${style.dataWrapper}`}>
               <div className={style.amountCont}>
-                <div className={style.amountUpper}>
-                  <p className={style.covLabel}>Coverage Limit</p>
-                </div>
-                <div className={style.amountLower}>
-                  <p className={style.covData}>
-                    ฿ {userPolData.coverage_limit}
-                  </p>
-                </div>
+                <p className={style.covData}>฿ {userPolData.coverage_limit}</p>
               </div>
               <div className={style.spentCont}>
-                <div className={style.spentUpper}>
-                  <p className={style.covLabel}>Coverage Spent</p>
-                </div>
-                <div className={style.spentLower}>
-                  <p className={style.covData}>
-                    ฿ {userPolData.coverage_spent}
-                  </p>
-                </div>
+                <p className={style.covData}>฿ {userPolData.coverage_spent}</p>
               </div>
               <div className={style.leftCont}>
-                <div className={style.leftUpper}>
-                  <p className={style.covLabel}>Coverage Left</p>
-                </div>
-                <div className={style.leftLower}>
-                  <p className={style.covData}>฿ {userPolData.coverage_left}</p>
-                </div>
+                <p className={style.covData}>฿ {userPolData.coverage_left}</p>
               </div>
             </div>
           </div>
@@ -133,7 +106,65 @@ const UserDashboard = () => {
             <div className={style.innerUpperElement}>
               <h1>Package Owned</h1>
             </div>
-            <div className={style.innerLowerElement}></div>
+            <div className={style.innerLowerElement}>
+              <div className={style.leftElement}>
+                {userPurData === "tier1" ? (
+                  <motion.img
+                    variants={fadeIn("up", "tween", 0.5, 0.6)}
+                    src="./tier1.png"
+                    alt="package"
+                    data-value="tier1"
+                  />
+                ) : userPurData.tier === "tier2" ? (
+                  <motion.img
+                    variants={fadeIn("up", "tween", 0.5, 0.6)}
+                    src="./tier2.png"
+                    alt="package"
+                    data-value="tier2"
+                  />
+                ) : userPurData.tier === "tier3" ? (
+                  <motion.img
+                    variants={fadeIn("up", "tween", 0.5, 0.6)}
+                    src="./tier3.png"
+                    alt="package"
+                    data-value="tier3"
+                  />
+                ) : userPurData.tier === "tier4" ? (
+                  <motion.img
+                    initial={{ opacity: 0, y: "-100%" }}
+                    animate={{
+                      opacity: 1,
+                      y: "0",
+                      transition: {
+                        // delay: 0.2,
+                        duration: 0.5,
+                        type: "tween",
+                        ease: "easeOut",
+                      },
+                    }}
+                    src="./tier4.png"
+                    alt="package"
+                    data-value="tier4"
+                  />
+                ) : null}
+              </div>
+              <div className={style.rightElement}>
+                <motion.div
+                  className={style.packageDetail}
+                  initial={{ opacity: 0, x: "100%" }}
+                  animate={{
+                    opacity: 1,
+                    x: "0",
+                    transition: {
+                      // delay: 0.2,
+                      duration: 0.5,
+                      type: "tween",
+                      ease: "easeOut",
+                    },
+                  }}
+                ></motion.div>
+              </div>
+            </div>
           </div>
         </div>
       </motion.div>

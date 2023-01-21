@@ -10,6 +10,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import Purchase from "./pages/Purchase";
 import Login from "./pages/Login/Login";
 import UserDashboard from "./pages/Dashboards/UserDashboard";
+
 const App = () => {
   return (
     <div className={`bg-primary ${style.container}`}>
