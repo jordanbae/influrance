@@ -26,18 +26,19 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 
 var app = express();
-
 const verifyToken = (req, res, next) => {
-  let token = req.cookies.jwt; // COOKIE PARSER GIVES YOU A .cookies PROP, WE NAMED OUR TOKEN jwt
+  const bearerHeader = req.headers["authorization"];
+  if (typeof bearerHeader !== "undefined") {
+    const bearer = bearerHeader.split(" ");
+    const bearerToken = bearer[1];
+    req.token = bearerToken;
+  }
 
-  console.log("Cookies: ", req.cookies.jwt);
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, decodedUser) => {
-    if (err || !decodedUser) {
+  jwt.verify(req.token, process.env.JWT_SECRET, (err, decodedUser) => {
+    if (err || !decodedUser)
       return res.status(401).json({ error: "Unauthorized Request" });
-    }
-    req.user = decodedUser; // ADDS A .user PROP TO REQ FOR TOKEN USER
-    console.log(decodedUser);
+
+    req.user = decodedUser;
 
     next();
   });
