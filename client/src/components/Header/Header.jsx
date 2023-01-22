@@ -5,9 +5,12 @@ import { motion } from "framer-motion";
 import { headerVariants } from "../../utils/motion";
 import { getMenuStyles } from "../../utils/motion";
 import useHeaderShadow from "../../hooks/useHeaderShadow";
+import { useNavigate } from "react-router-dom";
+import { MdAccountCircle, MdOutlineEmail, MdPhone } from "react-icons/md";
 const Header = () => {
   const [menuOpened, setMenuOpened] = useState(false);
   const headerShadow = useHeaderShadow();
+  const navigate = useNavigate();
   return (
     <motion.div
       initial="hidden"
@@ -35,13 +38,20 @@ const Header = () => {
             <a href="#reviews">Reviews</a>
           </li>
           <li className={`flexCenter ${style.phone}`}>
-            <p>+123 456 789</p>
-            <BiPhoneCall size={"40px"} />
-          </li>
-          <li>
-            <a href="/login" style={{ textTransform: "capitalize" }}>
-              Login
+            <a href="#footer">
+              {" "}
+              <BiPhoneCall size={"40px"} />
             </a>
+            {/* <p>1888</p> */}
+          </li>
+          <li className={`flexCenter ${style.phone}`}>
+            <MdAccountCircle
+              size={"40px"}
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/login");
+              }}
+            />
           </li>
         </ul>
         {/* sm - md screen */}
