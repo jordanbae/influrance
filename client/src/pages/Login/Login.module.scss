@@ -1,0 +1,100 @@
+@import "./../../styles/contants.scss";
+
+.wrapper {
+  @media (max-width: $md) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  background-color: white;
+  min-height: 100vh;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  section.sideContainer {
+    @media (max-width: $md) {
+      display: none;
+    }
+    background-image: url("./loginbgel.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    align-items: flex-end;
+    justify-content: flex-start;
+    img {
+      max-width: 25%;
+      height: 50%;
+    }
+  }
+  .loginContainer {
+    // border: 1px solid red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    .textSeparator {
+      width: 450px;
+      height: 4px;
+      background-color: #ffda88;
+      margin: 24px;
+    }
+    #welcomeMsg {
+      text-align: center;
+      font-size: 1.1em;
+      line-height: 28px;
+      margin-bottom: 30px;
+    }
+    .loginForm {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 200px;
+      position: relative;
+      .userDiv {
+        margin-bottom: 8px;
+      }
+      input {
+        width: 100%;
+        background: #e6e6e6;
+        color: #333;
+        border-style: none;
+        letter-spacing: 0.5px;
+        padding: 14px 64px;
+      }
+      .userIcon {
+        position: absolute;
+        left: 14px;
+        top: 12%;
+        transform: translateY(-50%);
+        color: #333;
+      }
+      .passwordIcon {
+        position: absolute;
+        left: 14px;
+        top: 35%;
+        transform: translateY(-50%);
+        color: #333;
+      }
+      .loginSubmit {
+        width: 100%;
+        border-style: none;
+        color: #0d2f3f;
+        padding: 14px 64px;
+        margin: 32px auto;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: bold;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.6;
+        }
+      }
+    }
+  }
+}
