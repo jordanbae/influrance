@@ -7,8 +7,9 @@ import Reviews from "./components/Reviews/Reviews";
 import Service from "./components/Service/Service";
 import style from "./styles/app.module.scss";
 import { Routes, Route, Link } from "react-router-dom";
-import Purchase from "./pages/Purchase";
+// import Purchase from "./pages/Purchase"; OLD PURCHASE
 import Login from "./pages/Login/Login";
+import Purchase from "./pages/Purchase/Purchase";
 import UserDashboard from "./pages/Dashboards/UserDashboard";
 
 const App = () => {
