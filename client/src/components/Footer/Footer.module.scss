@@ -1,31 +1,31 @@
-@import '../../styles/contants.scss';
+@import "../../styles/contants.scss";
 
-.wrapper{
-    background: white;
-    .container{
-        gap: 2rem;
-        @media (max-width: $sm) {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            gap: 2rem;
-            align-items: center;
-        }
-       .center {
-        justify-content: center;
-        align-items: center;
-       }
-       .menu {
-        text-decoration: none;
-        list-style: none;
-       } 
-
-       .right {
-        .info{
-            .callCenter {
-                color: blue;
-            }
-        }
-       }
+.wrapper {
+  background: white;
+  .container {
+    gap: 2rem;
+    @media (max-width: $sm) {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      gap: 2rem;
+      align-items: center;
     }
+    .center {
+      justify-content: center;
+      align-items: center;
+    }
+    .menu {
+      text-decoration: none;
+      list-style: none;
+    }
+
+    .right {
+      .info {
+        .callCenter {
+          color: #ffda88;
+        }
+      }
+    }
+  }
 }

@@ -44,7 +44,7 @@ const Header = () => {
             </a>
             {/* <p>1888</p> */}
           </li>
-          <li className={`flexCenter ${style.phone}`}>
+          <li className={`flexCenter ${style.login}`}>
             <MdAccountCircle
               size={"40px"}
               onClick={(e) => {
