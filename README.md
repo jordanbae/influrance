@@ -37,6 +37,10 @@ Server (port:3001)
 - **lottie-web** - lottie animation
 - **moment** - handling date
 - **sass** - styling
+- **Thunder Client** - testing api
+
+## Color Palette
+<img src="planning/color_pallette.png" width="300">
 
 ## Deployment
 
