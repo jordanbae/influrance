@@ -40,7 +40,7 @@ Server (port:3001)
 
 ## Deployment
 
-n/a
+[Influrance](https://influrance.vercel.app/)
 
 ## User Stories
 
