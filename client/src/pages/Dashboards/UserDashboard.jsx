@@ -13,7 +13,6 @@ import {
   BsFillCalendarCheckFill,
 } from "react-icons/bs";
 import moment from "moment";
-// import window.Cookies from "js-cookie";
 const UserDashboard = () => {
   const location = useLocation();
   const currentUser = location.state;
@@ -22,7 +21,6 @@ const UserDashboard = () => {
   const [userPurData, setUserPurData] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const navigate = useNavigate();
-  console.log("Console Loggin localstorage", localStorage.getItem("jwt"));
   useEffect(() => {
     axios
       .get(`http://localhost:3001/api/users/${currentUser}`, {
@@ -33,9 +31,6 @@ const UserDashboard = () => {
         setUserPolData(res.data.userData[1]);
         setUserPurData(res.data.userData[2]);
         setLoading(false);
-        console.log("array 0 ", userData);
-        console.log("array 1 ", userPolData);
-        console.log("array 2 ", userPurData);
       })
 
       .catch((err) => {
@@ -162,7 +157,6 @@ const UserDashboard = () => {
                       opacity: 1,
                       y: "0",
                       transition: {
-                        // delay: 0.2,
                         duration: 0.5,
                         type: "tween",
                         ease: "easeOut",
@@ -179,7 +173,6 @@ const UserDashboard = () => {
                       opacity: 1,
                       y: "0",
                       transition: {
-                        // delay: 0.2,
                         duration: 0.5,
                         type: "tween",
                         ease: "easeOut",
@@ -196,7 +189,6 @@ const UserDashboard = () => {
                       opacity: 1,
                       y: "0",
                       transition: {
-                        // delay: 0.2,
                         duration: 0.5,
                         type: "tween",
                         ease: "easeOut",
@@ -213,7 +205,6 @@ const UserDashboard = () => {
                       opacity: 1,
                       y: "0",
                       transition: {
-                        // delay: 0.2,
                         duration: 0.5,
                         type: "tween",
                         ease: "easeOut",
@@ -233,7 +224,6 @@ const UserDashboard = () => {
                     opacity: 1,
                     x: "0",
                     transition: {
-                      // delay: 0.2,
                       duration: 0.5,
                       type: "tween",
                       ease: "easeOut",

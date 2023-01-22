@@ -32,9 +32,6 @@ const Login = () => {
         localStorage.setItem("jwt", token);
         setSuccess(true);
       });
-    // console.log("submitted", user, pwd);
-    // setUser("");
-    // setPwd("");
   };
   return (
     <motion.div

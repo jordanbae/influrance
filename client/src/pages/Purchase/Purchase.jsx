@@ -39,9 +39,7 @@ const Purchase = () => {
   const [randPassword, setRandPassword] = useState(null);
 
   const location = useLocation();
-  console.log("location >>>", location);
   const chosenPackage = location.state;
-  console.log("chosenPackage >>>", chosenPackage);
   const [formData, setFormData] = useState({
     //Policies
     tier: null,
@@ -93,23 +91,17 @@ const Purchase = () => {
   //Form steps handler
   const nextFormStep = () => {
     setFormStep((step) => step + 1);
-    console.log(randPassword.password);
   };
   const backFormStep = () => {
     setFormStep((step) => step - 1);
-    console.log(randPassword.password);
   };
   const randpwd = passwordGenerator();
-  //Use effect here ========================================================
   useEffect(() => {
     setVisible(true);
-    console.log("VITE ENV", import.meta.env.VITE_SOMEKEY);
     setRandPassword(randpwd);
     axios
       .get(`http://localhost:3001/api/policies/tier/${chosenPackage}`)
       .then((res) => {
-        // console.log(res);
-        console.log(res.data[0]);
         const covAmount = res.data[0].coverage_amount.$numberDecimal;
         const covPrice = res.data[0].price.$numberDecimal;
         setCoveragePrice(covPrice);
@@ -125,14 +117,12 @@ const Purchase = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
       });
   }, []);
 
   useEffect(() => {
     if (formStep === 6) {
-      console.log("formdata is 666666666666666");
       lottie.loadAnimation({
         container: container.current,
         renderer: "svg",
@@ -143,11 +133,7 @@ const Purchase = () => {
     }
   }, [formStep]);
   const handleNewPurchase = async () => {
-    // e.preventDefault();
-    // const randpwd = passwordGenerator();
-    // setRandPassword(randpwd.password);
     try {
-      //test emailjs
       await emailjs
         .send(
           import.meta.env.VITE_EMAILJS_SERVICE_ID,
@@ -204,7 +190,6 @@ const Purchase = () => {
   };
 
   if (isLoading) {
-    console.log("package data during loading >>> ", packageData);
     return null;
   }
 

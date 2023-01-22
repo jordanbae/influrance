@@ -1,93 +1,89 @@
-@import '../../styles/contants.scss';
+@import "../../styles/contants.scss";
 
 .wrapper {
-    overflow: hidden;
-    background-color: white;
-    .container {
-        position: relative;
-        z-index: 1;
+  overflow: hidden;
+  background-color: white;
+  .container {
+    position: relative;
+    z-index: 1;
 
-        .upperElements {
-            @media (max-width: $sm) {
-                justify-content: center;
-                text-align: center;
-                gap: 2rem;
-            }
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-
-
-        .lowerElements {
-            @media (max-width: $sm), (max-width: $md) {
-                margin-top: 4rem;
-                gap: 2rem;
-                justify-content: center;
-            }
-            margin-top: 12rem;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            .experience {
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-                >:nth-child(2) {
-                    line-height: 25px;
-                }
-            }
-
-            .certificate {
-            @media (max-width: $sm) {
-                display: flex;
-                flex-direction: row;
-            }
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                font-size: 1.3rem;
-                font-weight: 500;
-                line-height: 50px;
-                img {
-                    margin-bottom: 5.5rem;
-                    width: 2.5rem;
-                }
-            }
-        }
-
-        .heroPerson {
-            @media (max-width: $sm ), (max-width: $md) {
-                position: relative;
-                left: 0;
-                background-size: 25rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                // bottom: 34px;
-                // height: 450px;
-                bottom: -25px;
-                height: 403px;
-            }
-            height: 700px;
-            z-index: 20;
-            position: absolute;
-            bottom: -200px;
-            margin: auto;
-            background-image: url('../insurance_bg.png');
-            background-repeat: no-repeat;
-            background-size: 40rem;
-            background-position: bottom;
-            left: 15%;
-            img {
-                @media (max-width: $sm ) {
-                    width: 59rem;
-                    margin-bottom: -110px;
-                }
-                margin-bottom: -10px;
-            }
-        }
-
+    .upperElements {
+      @media (max-width: $sm) {
+        justify-content: center;
+        text-align: center;
+        gap: 2rem;
+      }
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
     }
+
+    .lowerElements {
+      @media (max-width: $sm), (max-width: $md) {
+        margin-top: 4rem;
+        gap: 2rem;
+        justify-content: center;
+      }
+      margin-top: 12rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      .experience {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        > :nth-child(2) {
+          line-height: 25px;
+        }
+      }
+
+      .certificate {
+        @media (max-width: $sm) {
+          display: flex;
+          flex-direction: row;
+        }
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 1.3rem;
+        font-weight: 500;
+        line-height: 50px;
+        img {
+          margin-bottom: 5.5rem;
+          width: 2.5rem;
+        }
+      }
+    }
+
+    .heroPerson {
+      @media (max-width: $sm), (max-width: $md) {
+        position: relative;
+        left: 0;
+        background-size: 25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        bottom: -25px;
+        height: 403px;
+      }
+      height: 700px;
+      z-index: 20;
+      position: absolute;
+      bottom: -200px;
+      margin: auto;
+      background-image: url("../insurance_bg.png");
+      background-repeat: no-repeat;
+      background-size: 40rem;
+      background-position: bottom;
+      left: 15%;
+      img {
+        @media (max-width: $sm) {
+          width: 59rem;
+          margin-bottom: -110px;
+        }
+        margin-bottom: -10px;
+      }
+    }
+  }
 }
