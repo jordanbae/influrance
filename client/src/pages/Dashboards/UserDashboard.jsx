@@ -241,6 +241,8 @@ const UserDashboard = () => {
                   }}
                 >
                   <div className={style.currentUserDetail}>
+                    <p style={{ fontSize: "20px" }}>User Details</p>
+                    <hr />
                     <p>
                       <span>
                         <MdAccountCircle />
@@ -263,6 +265,8 @@ const UserDashboard = () => {
                   </div>
 
                   <div className={style.userPackageDetail}>
+                    <p style={{ fontSize: "20px" }}>Package Details</p>
+                    <hr />
                     {userPurData.tier === "tier1" ? (
                       <p>
                         <span>
