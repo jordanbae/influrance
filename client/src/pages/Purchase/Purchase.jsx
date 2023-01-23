@@ -100,7 +100,9 @@ const Purchase = () => {
     setVisible(true);
     setRandPassword(randpwd);
     axios
-      .get(`http://localhost:3001/api/policies/tier/${chosenPackage}`)
+      .get(
+        `https://long-ruby-hedgehog-gear.cyclic.app/api/policies/tier/${chosenPackage}`
+      )
       .then((res) => {
         const covAmount = res.data[0].coverage_amount.$numberDecimal;
         const covPrice = res.data[0].price.$numberDecimal;
@@ -161,20 +163,23 @@ const Purchase = () => {
           }
         );
       // new purchase
-      await axios.post("http://localhost:3001/api/purchases/purchase", {
-        fullname: formData.fullname,
-        username: formData.user_name,
-        password: randPassword.password,
-        phone: formData.phone,
-        email: formData.email,
-        address: formData.address,
-        social_media_handle: formData.social_media_handle,
-        platform: formData.platform,
-        income: formData.income,
-        tier: formData.tier,
-        price: coveragePrice,
-        coverage_amount: coverageAmount,
-      });
+      await axios.post(
+        "https://long-ruby-hedgehog-gear.cyclic.app/api/purchases/purchase",
+        {
+          fullname: formData.fullname,
+          username: formData.user_name,
+          password: randPassword.password,
+          phone: formData.phone,
+          email: formData.email,
+          address: formData.address,
+          social_media_handle: formData.social_media_handle,
+          platform: formData.platform,
+          income: formData.income,
+          tier: formData.tier,
+          price: coveragePrice,
+          coverage_amount: coverageAmount,
+        }
+      );
 
       e.target.reset();
     } catch (err) {

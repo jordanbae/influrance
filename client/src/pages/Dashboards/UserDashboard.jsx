@@ -23,9 +23,12 @@ const UserDashboard = () => {
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/api/users/${currentUser}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` },
-      })
+      .get(
+        `https://long-ruby-hedgehog-gear.cyclic.app/api/users/${currentUser}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("jwt")}` },
+        }
+      )
       .then((res) => {
         setUserData(res.data.userData[0]);
         setUserPolData(res.data.userData[1]);

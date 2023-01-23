@@ -22,7 +22,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .post("http://localhost:3001/api/auth/login", {
+      .post("https://long-ruby-hedgehog-gear.cyclic.app/api/auth/login", {
         username: user,
         password: pwd,
       })
