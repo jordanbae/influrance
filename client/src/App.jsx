@@ -10,7 +10,15 @@ import { Routes, Route, Link } from "react-router-dom";
 import Login from "./pages/Login/Login";
 import Purchase from "./pages/Purchase/Purchase";
 import UserDashboard from "./pages/Dashboards/UserDashboard";
-
+import Register from "./pages/Register/Register";
+import AdminTables from "./pages/AdminTables/AdminTables";
+import Edit from "./pages/Edit/Edit";
+import Checkout from "./pages/Checkout/Checkout";
+import SignIn from "./pages/Signin/Signin";
+import Experiment from "./pages/Experiment/Experiment";
+import QrModal from "./components/QrModal/QrModal";
+import Buy from "./pages/Buy/Buy";
+import Dashboard from "./pages/Dashboards/Dashboard";
 const App = () => {
   return (
     <div className={`bg-primary ${style.container}`}>
@@ -31,6 +39,15 @@ const App = () => {
         <Route path="/purchase" element={<Purchase />} />
         <Route path="/login" element={<Login />} />
         <Route path="/udashboard" element={<UserDashboard />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/admin-table" element={<AdminTables />} />
+        <Route path="/edit" element={<Edit />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/exp" element={<Experiment />} />
+        <Route path="/qr" element={<QrModal />} />
+        <Route path="/buy" element={<Buy />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </div>
   );

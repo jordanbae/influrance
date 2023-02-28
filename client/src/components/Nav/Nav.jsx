@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import style from "./Header.module.scss";
+import React, { useEffect, useState } from "react";
+import style from "./Nav.module.scss";
 import { BiMenuAltRight, BiPhoneCall } from "react-icons/bi";
 import { motion } from "framer-motion";
 import { headerVariants } from "../../utils/motion";
@@ -15,22 +14,14 @@ import {
   MdLogin,
   MdLogout,
 } from "react-icons/md";
-const Header = () => {
+import { HiHome } from "react-icons/hi";
+const Nav = () => {
   const [menuOpened, setMenuOpened] = useState(false);
   const headerShadow = useHeaderShadow();
-  const navigate = useNavigate();
   const [authenticated, setAuthenticated] = useState(false);
-  const [nextId, setNextId] = useState("");
+  const navigate = useNavigate();
   useEffect(() => {
     setAuthenticated(isLoggedIn());
-    axios
-      .post(`http://influrance-api.test/api/v1/customer/getnext`)
-      .then((res) => {
-        setNextId(res.data.nextId);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }, []);
   return (
     <motion.div
@@ -49,14 +40,18 @@ const Header = () => {
           style={getMenuStyles(menuOpened)}
           className={`flexCenter ${style.menu}`}
         >
-          <li>
-            <a href="#services">Services</a>
-          </li>
-          <li>
-            <a href="#packages">Packages</a>
-          </li>
-          <li>
-            <a href="#reviews">Reviews</a>
+          <li className={`flexCenter ${style.home}`}>
+            <a href="#footer">
+              {" "}
+              <HiHome
+                size={"40px"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/");
+                }}
+              />
+            </a>
+            {/* <p>1888</p> */}
           </li>
           <li className={`flexCenter ${style.phone}`}>
             <a href="#footer">
@@ -81,15 +76,20 @@ const Header = () => {
                 size={"40px"}
                 onClick={(e) => {
                   e.preventDefault();
-                  navigate("/register", {
-                    state: {
-                      nextId: nextId,
-                    },
-                  });
+                  navigate("/register");
                 }}
               />
             </li>
           )}
+          {/* <li className={`flexCenter ${style.login}`}>
+            <MdAccountCircle
+              size={"40px"}
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/register");
+              }}
+            />
+          </li> */}
           <li className={`flexCenter ${style.register}`}>
             <MdLogin
               size={"40px"}
@@ -112,4 +112,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Nav;

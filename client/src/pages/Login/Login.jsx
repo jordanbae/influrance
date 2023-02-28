@@ -7,30 +7,37 @@ import { HiUser } from "react-icons/hi";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeIn, slideIn, staggerContainer } from "../../utils/motion";
+import { Cookie, SettingsSystemDaydream } from "@mui/icons-material";
+import Cookies from "js-cookie";
 const Login = () => {
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
-  axios.defaults.withCredentials = true;
-  useEffect(() => {
-    if (success) {
-      navigate("/udashboard", { state: user });
-    }
-    setSuccess(false);
-  }, [success]);
-  const handleSubmit = async (e) => {
+  // axios.defaults.withCredentials = true;
+  // useEffect(() => {
+  //   if (success) {
+  //     navigate("/", { state: user });
+  //   }
+  //   setSuccess(false);
+  // }, [success]);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    await axios
-      .post("https://long-ruby-hedgehog-gear.cyclic.app/api/auth/login", {
+    axios
+      .post(`http://influrance-api.test/api/v1/auth/login`, {
         username: user,
         password: pwd,
       })
       .then((res) => {
-        console.log(res.data);
-        let token = res.data;
-        localStorage.setItem("jwt", token);
-        setSuccess(true);
+        const token = res.data.token;
+        localStorage.setItem("token", token);
+        Cookies.set("token", token);
+        navigate("/dashboard");
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
   return (
@@ -83,7 +90,7 @@ const Login = () => {
             <p className={"primaryText"}>Welcome Back</p>
             <div className={style.textSeparator}></div>
             <p className={"secondaryText"} id={style.welcomeMsg}>
-              Please login with your credentials sent to your email.
+              Please login with your credentials.
             </p>
           </motion.div>
           <motion.div
