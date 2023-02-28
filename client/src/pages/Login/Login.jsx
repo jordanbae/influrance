@@ -9,31 +9,32 @@ import { motion, AnimatePresence } from "framer-motion";
 import { fadeIn, slideIn, staggerContainer } from "../../utils/motion";
 import { Cookie, SettingsSystemDaydream } from "@mui/icons-material";
 import Cookies from "js-cookie";
+import { useLocation } from "react-router-dom";
 const Login = () => {
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
+  const [loggedInUser, setLoggedInUser] = useState("");
   // axios.defaults.withCredentials = true;
-  // useEffect(() => {
-  //   if (success) {
-  //     navigate("/", { state: user });
-  //   }
-  //   setSuccess(false);
-  // }, [success]);
+  useEffect(() => {}, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`http://influrance-api.test/api/v1/auth/login`, {
+      .post(`http://localhost:8085/auth/login`, {
         username: user,
         password: pwd,
       })
       .then((res) => {
         const token = res.data.token;
         localStorage.setItem("token", token);
+        localStorage.setItem("aid", res.data.aid);
         Cookies.set("token", token);
-        navigate("/dashboard");
+        setLoggedInUser(res.data.username);
+        localStorage.setItem("user", res.data.username);
+        // localStorage.setItem("aid", res.data.id);
+        navigate("/agentdashboard", { state: res.data.username });
         console.log(res);
       })
       .catch((err) => {

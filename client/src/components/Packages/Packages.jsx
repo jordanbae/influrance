@@ -30,10 +30,10 @@ const Packages = () => {
   };
   React.useEffect(() => {
     axios
-      .post(`http://influrance-api.test/api/v1/order/getnextorder`)
+      .post(`http://localhost:8085/getnextorder`)
       .then((res) => {
         console.log(res);
-        setOrderId(res.data.nextOrder);
+        setOrderId(res.data.nextId);
       })
       .catch((err) => {
         console.log(err);

@@ -47,7 +47,7 @@ export default function Register() {
   };
   const [formData, setFormData] = React.useState({
     application_number: location.state.nextId,
-    registration_date: dayjs(currentDate).format("lll"),
+    registration_date: dayjs(currentDate).toDate(),
     birthdate: null,
     prefix: null,
     firstname: null,
@@ -62,11 +62,14 @@ export default function Register() {
     postal_code: null,
     province: null,
     phone_number: null,
+    license_number: null,
+    license_expire_date: null,
+    role: null,
   });
   const testApi = (e) => {
     e.preventDefault();
     axios
-      .post("http://influrance-api.test/api/v1/customer", {
+      .post("http://localhost:8085/auth/register", {
         application_number: formData.application_number,
         registration_date: formData.registration_date,
         birthdate: formData.birthdate,
@@ -83,25 +86,20 @@ export default function Register() {
         postal_code: formData.postal_code,
         province: formData.province,
         phone_number: formData.phone_number,
+        license_number: formData.license_number,
+        license_expire_date: formData.license_expire_date,
+        role: formData.role,
       })
       .then((res) => {
         console.log(res);
-        navigate("/");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const sendEmailToUser = (e) => {
-    e.preventDefault();
-    axios
-      .get(`http://influrance-api.test/api/v1/customer`, {
-        email: formData.email,
-        username: formData.username,
-        password: formData.password,
-      })
-      .then((res) => {
-        console.log(res);
+        setTimeout(() => {
+          axios.post(`http://localhost:8085/sendMail`, {
+            recipient: "jordanlaphon@gmail.com",
+            msgBody: `Your login credentials \n Username: ${formData.username} \n Password: ${formData.password}`,
+            subject: "Thank you for registering with Influrance!",
+          });
+          navigate("/");
+        }, 1000);
       })
       .catch((err) => {
         console.log(err);
@@ -171,8 +169,7 @@ export default function Register() {
                       name="birthdate"
                       type="date"
                       onChange={(date) => {
-                        const birthdateString =
-                          dayjs(date).format("DD-MM-YYYY");
+                        const birthdateString = dayjs(date).toDate();
                         setFormData((prevState) => ({
                           ...prevState,
                           birthdate: birthdateString,
@@ -228,6 +225,24 @@ export default function Register() {
                     onChange={handleChange}
                     autoComplete="family-name"
                   />
+                </Grid>
+                <Grid item xs={12}>
+                  {/* <InputLabel id="demo-simple-select-label">Age</InputLabel> */}
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    fullWidth
+                    name="role"
+                    label="Select Role"
+                    onChange={handleChange}
+                    defaultValue={"Role"}
+                  >
+                    <MenuItem value={"Role"} disabled>
+                      Role
+                    </MenuItem>
+                    <MenuItem value={"A"}>Agent</MenuItem>
+                    <MenuItem value={"B"}>Representative</MenuItem>
+                  </Select>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -339,6 +354,39 @@ export default function Register() {
                     autoComplete="phone"
                     onChange={handleChange}
                   />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="licenseNumber"
+                    label="License Number"
+                    name="license_number"
+                    autoComplete="license_number"
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label="License Expire Date"
+                      name="license_expire_date"
+                      type="date"
+                      required
+                      onChange={(date) => {
+                        const licenseDateString = dayjs(date).toDate();
+                        setFormData((prevState) => ({
+                          ...prevState,
+                          license_expire_date: licenseDateString,
+                        }));
+                      }}
+                      value={formData.license_expire_date}
+                      renderInput={(params) => (
+                        <TextField {...params} fullWidth />
+                      )}
+                      fullWidth
+                    />
+                  </LocalizationProvider>
                 </Grid>
                 <Grid item xs={12}>
                   <FormControlLabel

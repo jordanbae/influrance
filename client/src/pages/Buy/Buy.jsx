@@ -71,15 +71,29 @@ export default function Buy() {
   const [authenticated, setAuthenticated] = React.useState(false);
   const [checkAuthenticate, setCheckAuth] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
+  const [aid, setAid] = React.useState();
   const location = useLocation();
-  const navigate = useNavigate();
   const chosenPackage = location.state.package;
-  React.useEffect(() => {}, [authenticated]);
+  const navigate = useNavigate();
   React.useEffect(() => {
     axios
-      .get(`http://influrance-api.test/api/v1/product/${chosenPackage}`)
+      .post(`http://localhost:8085/selagent`, {
+        username: localStorage.getItem("user"),
+      })
       .then((res) => {
-        const dData = res.data.data;
+        console.log(res.data);
+        setAid(res.data.id);
+      })
+      .catch((err) => console.log(err));
+  }, [authenticated]);
+  React.useEffect(() => {
+    axios
+      .get(`http://localhost:8085/products/${chosenPackage}`)
+      .then((res) => {
+        const dData = res.data;
+        console.log("Ddata", dData);
+        console.log("ChosenPackage", chosenPackage);
+        console.log("Current Order", location.state.orderId);
         setCurrentPackage(dData);
         setAmount(dData.price);
         setFormData(() => ({
@@ -107,45 +121,56 @@ export default function Buy() {
   const handleQR = () => {
     setqrCode(generatePayload(phoneNumber, { amount }));
   };
-
+  const handleSubmitDraft = (e) => {
+    e.preventDefault();
+    const updateOrderStatus = {
+      ...formData,
+      orderStatus: "draft",
+      order_id: null,
+      agentId: aid,
+    };
+    console.log("Order Status", updateOrderStatus);
+    axios
+      .post("http://localhost:8085/draft", updateOrderStatus)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handleStartDateChange = (date) => {
     setSelectedStartDate(date);
     setSelectedEndDate(dayjs(date).add(1, "year"));
-    const sdate = dayjs(date).format("DD-MM-YYYY");
+    const sdate = dayjs(date).format("YYYY-MM-DD");
     const ndate = dayjs(date).add(1, "year");
-    const ndatef = dayjs(ndate).format("DD-MM-YYYY");
+    const ndatef = dayjs(ndate).format("YYYY-MM-DD");
     setFormData(() => ({
       ...formData,
       start_date: sdate,
       end_date: ndatef,
     }));
   };
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get("email"),
-  //     password: data.get("password"),
-  //   });
-  // };
 
+  const currentDate = dayjs(new Date()).format("YYYY-MM-DD");
   const handleSubmit = (e) => {
     e.preventDefault();
     setOpen(false);
+    const updatedFormData = { ...formData, agentId: aid };
+    const updatedRelData = { ...relData, agentId: aid };
     axios
-      .post(`http://influrance-api.test/api/v1/order`, formData)
+      .post(`http://localhost:8085/buy`, updatedFormData)
       .then((res) => {
-        setTimeout(() => {
-          axios
-            .post(`http://influrance-api.test/api/v1/order/detail`, formData)
-            .then((res) => {
-              console.log(res);
-              navigate("/dashboard");
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }, 1500);
+        console.log("Buy", res);
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    axios
+      .post(`http://localhost:8085/agent-customer`, updatedRelData)
+      .then((res) => {
+        console.log("Relation", res);
       })
       .catch((err) => {
         console.log(err);
@@ -170,46 +195,64 @@ export default function Buy() {
     setAddress(updatedAddress.join(" "));
   };
   const [formData, setFormData] = React.useState({
+    agent_id: 0,
     order_id: location.state.orderId,
     customer_id: location.state.uid,
-    product_id: null,
-    product_name: null,
-    product_price: null,
-    coverage_allowance: null,
-    coverage_claimed: null,
-    coverage_left: null,
+    product_id: 0,
+    product_name: "",
+    product_price: 0,
+    coverage_allowance: 0,
+    coverage_claimed: 0,
+    coverage_left: 0,
     prefix: location.state.prefix,
     firstname: location.state.firstname,
     lastname: location.state.lastname,
     citizen_id: location.state.citizenid,
-    email: null,
+    email: "",
     birthdate: null,
     start_date: null,
     end_date: null,
-    address: null,
-    district: null,
-    sub_district: null,
-    postal_code: null,
-    province: null,
-    beneficiary_1_prefix: null,
-    beneficiary_1_firstname: null,
-    beneficiary_1_lastname: null,
-    beneficiary_1_phone_number: null,
-    beneficiary_1_relationship: null,
-    beneficiary_2_prefix: null,
-    beneficiary_2_firstname: null,
-    beneficiary_2_lastname: null,
-    beneficiary_2_phone_number: null,
-    beneficiary_2_relationship: null,
-    beneficiary_3_prefix: null,
-    beneficiary_3_firstname: null,
-    beneficiary_3_lastname: null,
-    beneficiary_3_phone_number: null,
-    beneficiary_3_relationship: null,
-    purchase_date: null,
-    status: "order",
+    address: "",
+    district: "",
+    sub_district: "",
+    postal_code: "",
+    province: "",
+    purchase_date: currentDate,
+    beneficiary_1_prefix: "",
+    beneficiary_1_firstname: "",
+    beneficiary_1_lastname: "",
+    beneficiary_1_phone_number: "",
+    beneficiary_1_relationship: "",
+    beneficiary_2_prefix: "",
+    beneficiary_2_firstname: "",
+    beneficiary_2_lastname: "",
+    beneficiary_2_phone_number: "",
+    beneficiary_2_relationship: "",
+    beneficiary_3_prefix: "",
+    beneficiary_3_firstname: "",
+    beneficiary_3_lastname: "",
+    beneficiary_3_phone_number: "",
+    beneficiary_3_relationship: "",
+    orderStatus: "order",
   });
-
+  const [relData, setRelData] = React.useState({
+    agent_id: 0,
+    customer_email: "",
+    customer_firstname: "",
+    customer_id: 0,
+    customer_lastname: "",
+    customer_phone_number: "",
+    customer_prefix: "",
+  });
+  React.useEffect(() => {
+    setRelData({
+      ...relData,
+      customer_prefix: formData.prefix,
+      customer_firstname: formData.firstname,
+      customer_lastname: formData.lastname,
+      customer_email: formData.email,
+    });
+  }, [formData.prefix, formData.firstname, formData.lastname, formData.email]);
   const handleChange = (e) => {
     setFormData(() => ({
       ...formData,
@@ -220,6 +263,9 @@ export default function Buy() {
     return null;
   }
 
+  if (!authenticated) {
+    return null;
+  }
   return (
     <>
       <Nav />
@@ -240,6 +286,24 @@ export default function Buy() {
             <Typography component="h1" variant="h5">
               Product Detail
             </Typography>
+            <Grid container spacing={1}>
+              <Grid item xs={6}>
+                <Button
+                  variant="contained"
+                  style={{ backgroundColor: "#8eccff" }}
+                  onClick={handleSubmitDraft}
+                >
+                  Save Draft
+                </Button>
+                <Button
+                  variant="contained"
+                  style={{ backgroundColor: "#ff788d", marginLeft: "10px" }}
+                  onClick={() => navigate("/draft")}
+                >
+                  Draft List
+                </Button>
+              </Grid>
+            </Grid>
             <Box
               component="form"
               noValidate
@@ -388,7 +452,7 @@ export default function Buy() {
                       inputFormat="MM/DD/YYYY"
                       onChange={(date) => {
                         const birthdateString =
-                          dayjs(date).format("DD-MM-YYYY");
+                          dayjs(date).format("YYYY-MM-DD");
                         setFormData((prevState) => ({
                           ...prevState,
                           birthdate: birthdateString,
@@ -478,7 +542,7 @@ export default function Buy() {
                     required
                     fullWidth
                     id="province"
-                    label="province"
+                    label="Province"
                     name="province"
                     autoComplete="province"
                     onChange={handleChange}

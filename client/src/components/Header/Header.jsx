@@ -21,10 +21,12 @@ const Header = () => {
   const navigate = useNavigate();
   const [authenticated, setAuthenticated] = useState(false);
   const [nextId, setNextId] = useState("");
+
+  //Get next customer id
   useEffect(() => {
     setAuthenticated(isLoggedIn());
     axios
-      .post(`http://influrance-api.test/api/v1/customer/getnext`)
+      .post(`http://localhost:8085/getnext`)
       .then((res) => {
         setNextId(res.data.nextId);
       })
@@ -71,7 +73,7 @@ const Header = () => {
                 size={"40px"}
                 onClick={(e) => {
                   e.preventDefault();
-                  navigate("/dashboard");
+                  navigate("/agentdashboard");
                 }}
               />
             </li>

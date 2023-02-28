@@ -66,7 +66,7 @@ const Nav = () => {
                 size={"40px"}
                 onClick={(e) => {
                   e.preventDefault();
-                  navigate("/dashboard");
+                  navigate("/agentdashboard");
                 }}
               />
             </li>

@@ -25,25 +25,28 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { isLoggedIn } from "../../utils/auth";
+import { useNavigate } from "react-router-dom";
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 const theme = createTheme();
 
-export default function Dashboard() {
+export default function Draft() {
   const [authenticated, setAuthenticated] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
-  const [pData, setpData] = React.useState();
+  const [aData, setaData] = React.useState();
+  const location = useLocation();
+  const agent = localStorage.getItem("user");
+  const navigate = useNavigate();
   React.useEffect(() => {
     if (authenticated) {
       const token = localStorage.getItem("token");
+      const user = localStorage.getItem("aid");
       axios
-        .post(`http://influrance-api.test/api/v1/uorder`, null, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
+        .post(`http://localhost:8085/getdraft`, { aid: user })
         .then((res) => {
-          setpData(res.data.customerOrders);
+          setaData(res.data);
+          console.log(res.data);
           setTimeout(() => {
             setLoading(false);
           }, 3000);
@@ -51,7 +54,6 @@ export default function Dashboard() {
         .catch((err) => {
           console.log(err);
         });
-      console.log(pData);
     }
   }, [authenticated]);
   if (!authenticated) {
@@ -82,58 +84,47 @@ export default function Dashboard() {
                 color="text.primary"
                 gutterBottom
               >
-                Welcome User
+                {agent}'s draft list
               </Typography>
               <Stack
                 sx={{ pt: 4 }}
                 direction="row"
                 spacing={2}
                 justifyContent="center"
-              >
-                <Button variant="contained">Main call to action</Button>
-                <Button variant="outlined">Secondary action</Button>
-              </Stack>
+              ></Stack>
             </Container>
           </Box>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="left">Start Date</TableCell>
-                  <TableCell align="left">End Date</TableCell>
-                  <TableCell align="right">Product</TableCell>
-                  <TableCell align="right">Price</TableCell>
-                  <TableCell align="right">Coverage Allowance</TableCell>
-                  <TableCell align="right">Coverage Claimed</TableCell>
-                  <TableCell align="right">Coverage Left</TableCell>
-                  <TableCell align="right">Email</TableCell>
-                  <TableCell align="right">Firstname</TableCell>
-                  <TableCell align="right">Lastname</TableCell>
+                  <TableCell align="left">#</TableCell>
+                  <TableCell align="right">Customer's Firstname</TableCell>
+                  <TableCell align="right">Customer's Lastname</TableCell>
+                  <TableCell align="right">Customer's Email</TableCell>
+                  <TableCell align="right">Customer's Citizen Id</TableCell>
+                  <TableCell align="center">Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {pData.map((row) => (
-                  <TableRow key={row.id}>
+                {aData.map((row, index) => (
+                  <TableRow key={index + 1}>
                     <TableCell component="th" scope="row">
-                      {row.start_date}
+                      {index + 1}
                     </TableCell>
-                    <TableCell align="left">{row.end_date}</TableCell>
-                    <TableCell align="right">{row.product_name}</TableCell>
-                    <TableCell align="right">{row.product_price}</TableCell>
-                    <TableCell align="right">
-                      {row.coverage_allowance}
-                    </TableCell>
-                    <TableCell align="right">
-                      {row.coverage_claimed + 0}{" "}
-                    </TableCell>
-                    <TableCell align="right">
-                      {row.coverage_left + row.product_price}
-                    </TableCell>
-                    <TableCell align="right">{row.email}</TableCell>
-                    <TableCell align="right">
-                      {row.prefix + row.firstname}
-                    </TableCell>
+                    <TableCell align="right">{row.firstname}</TableCell>
                     <TableCell align="right">{row.lastname}</TableCell>
+                    <TableCell align="right">{row.email}</TableCell>
+                    <TableCell align="right">{row.citizen_id}</TableCell>
+                    <TableCell align="center">
+                      <Button
+                        variant="contained"
+                        style={{ backgroundColor: "#6f69dc" }}
+                        onClick={() => navigate("/draftbuy", { state: row.id })}
+                      >
+                        Edit
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

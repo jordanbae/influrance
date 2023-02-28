@@ -19,6 +19,9 @@ import Experiment from "./pages/Experiment/Experiment";
 import QrModal from "./components/QrModal/QrModal";
 import Buy from "./pages/Buy/Buy";
 import Dashboard from "./pages/Dashboards/Dashboard";
+import AgentDashboard from "./pages/Dashboards/AgentDashboard";
+import Draft from "./pages/Draft/Draft";
+import DraftBuy from "./pages/Buy/DraftBuy";
 const App = () => {
   return (
     <div className={`bg-primary ${style.container}`}>
@@ -47,7 +50,10 @@ const App = () => {
         <Route path="/exp" element={<Experiment />} />
         <Route path="/qr" element={<QrModal />} />
         <Route path="/buy" element={<Buy />} />
+        <Route path="/draftbuy" element={<DraftBuy />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/agentdashboard" element={<AgentDashboard />} />
+        <Route path="/draft" element={<Draft />} />
       </Routes>
     </div>
   );
